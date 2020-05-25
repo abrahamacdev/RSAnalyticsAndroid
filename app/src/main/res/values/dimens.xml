@@ -1,0 +1,33 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!-- ativity_main.xml -->
+    <dimen name="actmain_ancho_guidelines_animacion_carga_inicial">72dp</dimen>
+
+    <!-- fragment_login.xml -->
+    <dimen name="fraglog_ancho_guidelines_card_view">32dp</dimen>
+    <dimen name="fraglog_alto_card_view">384dp</dimen>
+    <dimen name="fraglog_margen_superior_inputs_card_view">48dp</dimen>
+    <dimen name="fraglog_margen_izquierda_inputs_card_view">24dp</dimen>
+    <dimen name="fraglog_margen_derecha_inputs_card_view">48dp</dimen>
+    <dimen name="fraglog_tamanio_labels_inputs">18sp</dimen>
+    <dimen name="fraglog_espacio_label_input">24dp</dimen>
+    <dimen name="fraglog_margen_izquierdo_mensaje_error">4dp</dimen>
+    <dimen name="fraglog_espacio_entre_inputs">36dp</dimen>
+    <dimen name="fraglog_alto_guideline_boton_login">24dp</dimen>
+    <dimen name="fraglog_margen_superior_crear_cuenta">16dp</dimen>
+
+    <!-- fragment_registro.xml -->
+    <dimen name="fragreg_ancho_guidelines_card_view">16dp</dimen>
+    <dimen name="fragreg_alto_card_view">512dp</dimen>
+    <dimen name="fragreg_espacio_entre_inputs">12dp</dimen>
+    <dimen name="fragreg_maximo_ancho_input_telefono">172dp</dimen>
+    <dimen name="fragreg_margen_superior_boton_registrar">24dp</dimen>
+    <dimen name="fragreg_padding_inferior_scroll_view">18dp</dimen>
+
+</resources>

@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">RSAnalytics</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="home_second">Home Second</string>
+
+
+    <!-- Shared Preferences -->
+    <string name="archivo_preferencias_key">PREFERENCIAS</string>
+    <string name="token_key">TOKEN</string>
+
+    <!-- fragment_login.xml -->
+    <string name="fraglog_label_correo">Correo electrónico</string>
+    <string name="fraglog_label_contrasenia">Contraseña</string>
+    <string name="fraglog_boton_login">Login</string>
+    <string name="fraglog_crear_cuenta">¿Aún no te has registrado?</string>
+    <string name="fraglog_error_introduzca_correo">Introduzca un correo</string>
+    <string name="fraglog_error_introduzca_contrasenia">Introduzca una contraseña</string>
+    <string name="fraglog_error_correo_invalido">Introduzca un correo valido</string>
+    <string name="fraglog_error_prueba_otra_combinacion">Correo o contraseña incorrectos</string>
+    <string name="fraglog_error_inesperado">Ocurrió un error inesperado</string>
+
+    <!-- fragment_registro.xml -->
+    <string name="fragreg_label_nombre">Nombre</string>
+    <string name="fragreg_label_primer_apellido">Primer Apellido</string>
+    <string name="fragreg_label_segundo_apellido">Segundo Apellido</string>
+    <string name="fragreg_label_genero">Género</string>
+    <string name="fragreg_genero_masculino">Hombre</string>
+    <string name="fragreg_genero_femenino">Mujer</string>
+    <string name="fragreg_label_telefono">Nº de teléfono</string>
+    <string name="fragreg_label_correo">Correo electrónico</string>
+    <string name="fragreg_label_contrasenia">Contraseña</string>
+    <string name="fragreg_label_repetir_contrasenia">Repetir contraseña</string>
+
+
+</resources>
