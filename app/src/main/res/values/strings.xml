@@ -33,9 +33,9 @@
     <string name="fragreg_label_nombre">Nombre</string>
     <string name="fragreg_label_primer_apellido">Primer Apellido</string>
     <string name="fragreg_label_segundo_apellido">Segundo Apellido</string>
-    <string name="fragreg_label_genero">Género</string>
-    <string name="fragreg_genero_masculino">Hombre</string>
-    <string name="fragreg_genero_femenino">Mujer</string>
+    <string name="fragreg_label_sexo">Sexo</string>
+    <string name="fragreg_sexo_masculino">Hombre</string>
+    <string name="fragreg_sexo_femenino">Mujer</string>
     <string name="fragreg_label_telefono">Nº de teléfono</string>
     <string name="fragreg_label_correo">Correo electrónico</string>
     <string name="fragreg_label_contrasenia">Contraseña</string>
@@ -44,7 +44,7 @@
     <string name="fragreg_error_introduzca_primer_apellido">Introduzca su primer apellido</string>
     <string name="fragreg_error_introduzca_segundo_apellido">Introduzca su segundo apellido</string>
     <string name="fragreg_error_introduzca_apellido_valido">Introduzca un apellido válido</string>
-    <string name="fragreg_error_introduzca_genero">Seleccione una opción</string>
+    <string name="fragreg_error_introduzca_sexo">Seleccione una opción</string>
     <string name="fragreg_error_introduzca_telefono">Introduzca un número de teléfono</string>
     <string name="fragreg_error_introduzca_telefono_valido">Introduzca un número de teléfono válido</string>
     <string name="fragreg_error_introduzca_correo">Introduzca un correo</string>
@@ -54,5 +54,7 @@
     <string name="fragreg_error_introduzca_repetir_contrasenia">Repita la contraseña</string>
     <string name="fragreg_error_introduzca_repetir_contrasenia_concuerden">Las contraseñas no coinciden</string>
 
+    <!-- menu_principal.xml -->
+    <string name="menuprin_boton_logout">Desconectar</string>
 
 </resources>

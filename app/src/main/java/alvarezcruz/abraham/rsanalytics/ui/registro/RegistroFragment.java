@@ -20,14 +20,17 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import alvarezcruz.abraham.rsanalytics.R;
+import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.repository.local.UsuarioModel;
 import alvarezcruz.abraham.rsanalytics.model.repository.remote.UsuarioRepository;
 import alvarezcruz.abraham.rsanalytics.utils.Constantes;
+import io.reactivex.rxjava3.functions.Consumer;
 
 public class RegistroFragment extends Fragment {
 
@@ -39,7 +42,7 @@ public class RegistroFragment extends Fragment {
     private UsuarioModel usuarioModel;
 
     private Runnable onRegistradoListener;
-    private Runnable onRegistradoYLogueadoListener;
+    private Consumer<Usuario> onRegistradoYLogueadoListener;
 
     private TextInputEditText inputNombre, inputPrimerApellido, inputSegundoApellido;
     private RadioGroup radioGroupGenero;
@@ -121,17 +124,21 @@ public class RegistroFragment extends Fragment {
         }
 
         usuarioRepository.realizarRegistro(paramsCamposReg.second)
-                .subscribe(codStatus -> {
+                .subscribe(par -> {
+
+                    int codStatus = par.first;
 
                     // Ocurrio un error
                     if (codStatus != 200){
 
                         esconderCarga();
 
-                        Snackbar snackbar = Snackbar.make(getView(), getString(R.string.fraglog_error_inesperado),
-                                Snackbar.LENGTH_LONG);
-                        snackbar.setTextColor(getResources().getColor(R.color.colorSecondary));
-                        snackbar.show();
+                        if (codStatus >= 400 && codStatus < 500){
+                            Snackbar snackbar = Snackbar.make(getView(), par.second.optString("msg"),
+                                    Snackbar.LENGTH_LONG);
+                            snackbar.setTextColor(getResources().getColor(R.color.colorSecondary));
+                            snackbar.show();
+                        }
                     }
 
                     // Realizaremos login automatico
@@ -141,28 +148,42 @@ public class RegistroFragment extends Fragment {
                         String contrasenia = (String) paramsCamposReg.second.get("contrasenia");
 
                         usuarioModel.getTokenRemotoYGuardarEnLocal(correo, contrasenia)
-                                .subscribe(par -> {
+                                .subscribe(parTokenRemoto -> {
 
                                     esconderCarga();
 
-                                    // 2xx
-                                    if (par.first >= 200 && par.first < 300){
-                                        if (onRegistradoYLogueadoListener != null){
-                                            onRegistradoYLogueadoListener.run();
-                                        }
+                                    // 200
+                                    if (parTokenRemoto.first >= 200 && parTokenRemoto.first < 300){
+
+                                        // Obtenemos la informacion general del usuario y la pasamos a la MainActivity
+                                        usuarioModel.getUsuario()
+                                                .subscribe(usuario -> {
+
+                                                    if (onRegistradoYLogueadoListener != null){
+                                                        onRegistradoYLogueadoListener.accept(usuario);
+                                                    }
+
+                                                },  error -> {
+
+                                                    error.printStackTrace();
+                                                    mostrarErrorEnSnackbar(getString(R.string.fraglog_error_inesperado));
+
+                                                }, () -> {
+
+                                                    mostrarErrorEnSnackbar(getString(R.string.fraglog_error_inesperado));
+
+                                                });
                                     }
 
-                                    // Desconocido
                                     else {
-                                        if (onRegistradoListener != null){
-                                            onRegistradoListener.run();
-                                        }
+                                        onRegistradoListener.run();
                                     }
-                                });
+
+                                }, Throwable::printStackTrace);
                     }
 
                 }, error -> {
-                    error.printStackTrace();
+                    mostrarErrorEnSnackbar(getString(R.string.fraglog_error_inesperado));
                 });
 
     }
@@ -276,7 +297,7 @@ public class RegistroFragment extends Fragment {
         int indexGenero = radioGroupGenero.getCheckedRadioButtonId();
         String genero = "";
         if (indexGenero == -1){
-            errorGenero.setText(getString(R.string.fragreg_error_introduzca_genero));
+            errorGenero.setText(getString(R.string.fragreg_error_introduzca_sexo));
             errorGenero.setVisibility(View.VISIBLE);
             errorGenero.requestFocus();
             scrollView.scrollTo(0, radioGroupGenero.getScrollY());
@@ -367,13 +388,20 @@ public class RegistroFragment extends Fragment {
         return new Pair<>(true, valores);
     }
 
+    private void mostrarErrorEnSnackbar(String msg){
+        Snackbar snackbar = Snackbar.make(getView(), msg,
+                Snackbar.LENGTH_LONG);
+        snackbar.setTextColor(getResources().getColor(R.color.colorSecondary));
+        snackbar.show();
+    }
+
+
 
     public void setOnRegistradoListener(Runnable onRegistradoListener){
         this.onRegistradoListener = onRegistradoListener;
     }
 
-    public void setOnRegistradoYLogueadoListener(Runnable onRegistradoYLogueadoListener){
+    public void setOnRegistradoYLogueadoListener(Consumer<Usuario> onRegistradoYLogueadoListener){
         this.onRegistradoYLogueadoListener = onRegistradoYLogueadoListener;
     }
-
 }

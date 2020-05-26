@@ -177,7 +177,7 @@
                         android:id="@+id/labelGenero"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/fragreg_label_genero"
+                        android:text="@string/fragreg_label_sexo"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/fraglog_tamanio_labels_inputs" />
 
@@ -191,13 +191,13 @@
                             android:id="@+id/radioButtonFemenino"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/fragreg_genero_femenino"/>
+                            android:text="@string/fragreg_sexo_femenino"/>
 
                         <RadioButton
                             android:id="@+id/radioButtonMasculino"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/fragreg_genero_masculino"/>
+                            android:text="@string/fragreg_sexo_masculino"/>
 
                     </RadioGroup>
 

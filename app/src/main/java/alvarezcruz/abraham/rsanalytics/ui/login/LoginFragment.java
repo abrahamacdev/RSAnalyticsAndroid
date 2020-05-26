@@ -19,16 +19,22 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import alvarezcruz.abraham.rsanalytics.R;
+import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.repository.local.UsuarioModel;
 import alvarezcruz.abraham.rsanalytics.model.repository.remote.UsuarioRepository;
 import alvarezcruz.abraham.rsanalytics.ui.MainActivity;
 import alvarezcruz.abraham.rsanalytics.utils.Constantes;
 import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class LoginFragment extends Fragment {
@@ -36,9 +42,10 @@ public class LoginFragment extends Fragment {
     public static final String TAG_NAME = LoginFragment.class.getName();
 
     private UsuarioModel usuarioModel;
+    private UsuarioRepository usuarioRepository;
 
     private Runnable onRegistrarseListener;
-    private Runnable onLogueadoListener;
+    private Consumer<Usuario> onLogueadoListener;
 
     private TextInputEditText inputCorreo;
     private TextInputEditText inputContrasenia;
@@ -54,6 +61,7 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container,  false);
 
         usuarioModel = new ViewModelProvider(this).get(UsuarioModel.class);
+        usuarioRepository = new UsuarioRepository(getContext());
 
         Button botonLogin = view.findViewById(R.id.botonLogin);
         AppCompatTextView botonRegistrarse = view.findViewById(R.id.botonRegistrarse);
@@ -70,16 +78,6 @@ public class LoginFragment extends Fragment {
 
         return view;
     }
-
-
-    public void setOnRegistrarseListener(Runnable onRegistrarseListener){
-        this.onRegistrarseListener = onRegistrarseListener;
-    }
-
-    public void setOnLogueadoListener(Runnable onLogueadoListener){
-        this.onLogueadoListener = onLogueadoListener;
-    }
-
 
     private void registrarse(View v){
         if (onRegistrarseListener != null){
@@ -109,26 +107,24 @@ public class LoginFragment extends Fragment {
 
                     // 200
                     if (par.first >= 200 && par.first < 300){
-                        if (onLogueadoListener != null){
-                            onLogueadoListener.run();
-                        }
+
+                        usuarioModel.getUsuario()
+                                .subscribe(usuario -> {
+                                    if (onLogueadoListener != null){
+                                        onLogueadoListener.accept(usuario);
+                                    }
+                                },  error -> mostrarErrorEnSnackbar(getString(R.string.fraglog_error_inesperado)),
+                                    () -> mostrarErrorEnSnackbar(getString(R.string.fraglog_error_inesperado)));
                     }
 
                     // 400
                     if (par.first >= 400 && par.first < 500){
-
-                        Snackbar snackbar = Snackbar.make(getView(), getString(R.string.fraglog_error_prueba_otra_combinacion),
-                                Snackbar.LENGTH_LONG);
-                        snackbar.setTextColor(getResources().getColor(R.color.colorSecondary));
-                        snackbar.show();
+                        mostrarErrorEnSnackbar(getString(R.string.fraglog_error_prueba_otra_combinacion));
                     }
 
                     // 500
                     if (par.first >= 500 && par.first < 600){
-                        Snackbar snackbar = Snackbar.make(getView(), getString(R.string.fraglog_error_inesperado),
-                                Snackbar.LENGTH_LONG);
-                        snackbar.setTextColor(getResources().getColor(R.color.colorSecondary));
-                        snackbar.show();
+                        mostrarErrorEnSnackbar(getString(R.string.fraglog_error_inesperado));
                     }
 
                 }, error -> {
@@ -179,6 +175,22 @@ public class LoginFragment extends Fragment {
         }
 
         return true;
+    }
+
+    private void mostrarErrorEnSnackbar(String msg){
+        Snackbar snackbar = Snackbar.make(getView(), msg,
+                Snackbar.LENGTH_LONG);
+        snackbar.setTextColor(getResources().getColor(R.color.colorSecondary));
+        snackbar.show();
+    }
+
+
+    public void setOnRegistrarseListener(Runnable onRegistrarseListener){
+        this.onRegistrarseListener = onRegistrarseListener;
+    }
+
+    public void setOnLogueadoListener(Consumer<Usuario> onLogueadoListener){
+        this.onLogueadoListener = onLogueadoListener;
     }
 }
 

@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
+import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.repository.local.UsuarioModel;
 import alvarezcruz.abraham.rsanalytics.ui.login.LoginFragment;
 import alvarezcruz.abraham.rsanalytics.ui.menuPrincipal.MenuPrincipalActivity;
@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Logger logger = Logger.getLogger(TAG_NAME);
 
-
     private UsuarioModel usuarioModel;
 
     @Override
@@ -36,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         usuarioModel = new ViewModelProvider(this).get(UsuarioModel.class);
 
+        // Comprobamos si estamos logueados
         comprobarEstadoUsuario();
     }
 
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void comprobarEstadoUsuario(){
 
-        usuarioModel.getTokenLocal()
+        usuarioModel.getTokenLocalAsync()
                 .subscribe(new MaybeObserver<String>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {}
@@ -51,10 +51,26 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(@NonNull String s) {
 
-                        logger.log(Level.SEVERE, "Tenemos un token almacenado");
+                        // Tenemos un token en local, obtendremos la informacion general del usuario
+                        usuarioModel.getUsuario()
+                                .subscribe(usuario ->
+                                {
+                                    // Tenemos un token valido almacenado en local
+                                    irMenuPrincipal(usuario);
 
-                        // Tenemos un token valido almacenado en local
-                        irMenuPrincipal();
+                                }, error -> {
+
+                                    // Ocurrio un error, volveremos a la pantalla de loquin
+                                    usuarioModel.eliminarTokenLocalSync();
+                                    irPantallaLogin();
+
+                                }, () -> {
+
+                                    // Ocurrio un error, volveremos a la pantalla de loquin
+                                    usuarioModel.eliminarTokenLocalSync();
+                                    irPantallaLogin();
+
+                                });
                     }
 
                     @Override
@@ -63,17 +79,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete() {
 
-                        logger.log(Level.SEVERE, "No tenemos ningun token");
-
                         // Tenemos que realizar el login
                         irPantallaLogin();
                     }
                 });
     }
 
-    private void irMenuPrincipal(){
+    private void irMenuPrincipal(Usuario usuario){
         Intent i = new Intent(this, MenuPrincipalActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable("usuario", usuario);
         startActivity(i);
+        finish();
     }
 
     private void irPantallaRegistro(){
@@ -89,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void irPantallaLogin(){
-
         LoginFragment loginFragment = new LoginFragment();
         loginFragment.setOnRegistrarseListener(this::irPantallaRegistro);
         loginFragment.setOnLogueadoListener(this::irMenuPrincipal);
@@ -98,5 +114,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.fragmento_principal, loginFragment, LoginFragment.TAG_NAME)
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

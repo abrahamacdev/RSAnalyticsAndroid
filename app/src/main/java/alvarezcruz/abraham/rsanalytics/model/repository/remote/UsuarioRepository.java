@@ -1,13 +1,19 @@
 package alvarezcruz.abraham.rsanalytics.model.repository.remote;
 
 import android.content.Context;
+import android.util.JsonReader;
 import android.util.Pair;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -15,6 +21,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import alvarezcruz.abraham.rsanalytics.R;
+import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.utils.Constantes;
 import alvarezcruz.abraham.rsanalytics.utils.Utils;
 import io.reactivex.rxjava3.core.Maybe;
@@ -25,11 +33,14 @@ public class UsuarioRepository {
 
     private Logger logger = Logger.getLogger(TAG_NAME);
 
+    private Context context;
     private RequestQueue requestQueue;
 
     public UsuarioRepository(Context context){
+        this.context = context;
         requestQueue = Volley.newRequestQueue(context);
     }
+
 
     public Maybe<Pair<Integer, String>> realizarLogin(String correo, String contrasenia){
         return Maybe.create(emitter -> {
@@ -55,14 +66,16 @@ public class UsuarioRepository {
                         if (error.networkResponse != null){
                             status = error.networkResponse.statusCode;
                         }
+
                         emitter.onSuccess(new Pair<>(status, null));
             });
 
-            requestQueue.add(jsonObjectRequest);
+
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
         });
     }
 
-    public Maybe<Integer> realizarRegistro(HashMap<String, Object> params){
+    public Maybe<Pair<Integer,JSONObject>> realizarRegistro(HashMap<String, Object> params){
         return Maybe.create(emitter -> {
 
             String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.REGISTRO_USUARIO_ENDPOINT;
@@ -76,7 +89,8 @@ public class UsuarioRepository {
             // Realizamos la peticion
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                     response -> {
-                        emitter.onSuccess(200);
+
+                        emitter.onSuccess(new Pair(200, new JSONObject()));
 
                     },  error -> {
 
@@ -85,10 +99,52 @@ public class UsuarioRepository {
                         if (error.networkResponse != null){
                             status = error.networkResponse.statusCode;
                         }
-                        emitter.onSuccess(status);
+
+                        String data = new String(error.networkResponse.data);
+                        JSONObject res = new JSONObject();
+                        try {
+                            res = new JSONObject(data);
+                            emitter.onSuccess(new Pair<>(status, res));
+                            return;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Utils.anadirAlJSON(res, "msg", context.getString(R.string.fraglog_error_inesperado));
+                        emitter.onSuccess(new Pair<>(status, res));
             });
 
-            requestQueue.add(jsonObjectRequest);
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+        });
+    }
+
+
+    public Maybe<Usuario> obtenerInformacionGeneral(String token){
+        return Maybe.create(emitter -> {
+
+            String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.INFORMACION_GENERAL_USUARIO_ENDPOINT;
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+                String nombre = (String) Utils.obtenerDelJSON(response, "nombre");
+                String primerApellido = (String) Utils.obtenerDelJSON(response, "primerApellido");
+                String correo = (String) Utils.obtenerDelJSON(response, "correo");
+                String sexo = (String) Utils.obtenerDelJSON(response, "genero");
+
+                emitter.onSuccess(new Usuario(nombre, primerApellido, correo, sexo));
+
+            }, emitter::onError)
+            {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            // Añadimos la peticion a la cola
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
         });
     }
 
