@@ -5,13 +5,9 @@ import android.util.Pair;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -21,12 +17,7 @@ import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.utils.Constantes;
 import alvarezcruz.abraham.rsanalytics.utils.Utils;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.MaybeEmitter;
-import io.reactivex.rxjava3.core.MaybeOnSubscribe;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class UsuarioRepository {
 
@@ -34,23 +25,16 @@ public class UsuarioRepository {
 
     private Logger logger = Logger.getLogger(TAG_NAME);
 
-    private Context context;
     private RequestQueue requestQueue;
 
     public UsuarioRepository(Context context){
-        this.context = context;
         requestQueue = Volley.newRequestQueue(context);
     }
 
     public Maybe<Pair<Integer, String>> realizarLogin(String correo, String contrasenia){
-
-        logger.log(Level.SEVERE, "Vamos a hacer login");
-
         return Maybe.create(emitter -> {
 
-            logger.log(Level.SEVERE, "stamos dentro");
-
-            String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.LOGIN_ENDPOINT;
+            String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.LOGIN_USUARIO_ENDPOINT;
 
             // Parametros de la peticion
             JSONObject jsonObject = new JSONObject();
@@ -61,7 +45,7 @@ public class UsuarioRepository {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
                     response -> {
 
-                        String token = (String) Utils.obtenerDelJSON(jsonObject, "token");
+                        String token = (String) Utils.obtenerDelJSON(response, "token");
                         emitter.onSuccess(new Pair<>(200, token));
 
                     },  error -> {
@@ -72,6 +56,36 @@ public class UsuarioRepository {
                             status = error.networkResponse.statusCode;
                         }
                         emitter.onSuccess(new Pair<>(status, null));
+            });
+
+            requestQueue.add(jsonObjectRequest);
+        });
+    }
+
+    public Maybe<Integer> realizarRegistro(HashMap<String, Object> params){
+        return Maybe.create(emitter -> {
+
+            String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.REGISTRO_USUARIO_ENDPOINT;
+
+            // Parametros de la peticion
+            JSONObject jsonObject = new JSONObject();
+            for (Map.Entry<String, Object> entry : params.entrySet()){
+                Utils.anadirAlJSON(jsonObject, entry.getKey(), entry.getValue());
+            }
+
+            // Realizamos la peticion
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                    response -> {
+                        emitter.onSuccess(200);
+
+                    },  error -> {
+
+                        int status = 500;
+
+                        if (error.networkResponse != null){
+                            status = error.networkResponse.statusCode;
+                        }
+                        emitter.onSuccess(status);
             });
 
             requestQueue.add(jsonObjectRequest);

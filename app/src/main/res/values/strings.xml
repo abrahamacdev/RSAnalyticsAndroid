@@ -40,6 +40,19 @@
     <string name="fragreg_label_correo">Correo electrónico</string>
     <string name="fragreg_label_contrasenia">Contraseña</string>
     <string name="fragreg_label_repetir_contrasenia">Repetir contraseña</string>
+    <string name="fragreg_error_introduzca_nombre">Introduzca un nombre válido</string>
+    <string name="fragreg_error_introduzca_primer_apellido">Introduzca su primer apellido</string>
+    <string name="fragreg_error_introduzca_segundo_apellido">Introduzca su segundo apellido</string>
+    <string name="fragreg_error_introduzca_apellido_valido">Introduzca un apellido válido</string>
+    <string name="fragreg_error_introduzca_genero">Seleccione una opción</string>
+    <string name="fragreg_error_introduzca_telefono">Introduzca un número de teléfono</string>
+    <string name="fragreg_error_introduzca_telefono_valido">Introduzca un número de teléfono válido</string>
+    <string name="fragreg_error_introduzca_correo">Introduzca un correo</string>
+    <string name="fragreg_error_introduzca_correo_valido">Introduzca un correo válido</string>
+    <string name="fragreg_error_introduzca_contrasenia">Introduzca una contraseña</string>
+    <string name="fragreg_error_introduzca_contrasenia_valido">La contraseña debe tener: al menos 8 caracteres, una mayúscula, una minúscula, un número y un caracter especial (!@#$%^&amp;*)</string>
+    <string name="fragreg_error_introduzca_repetir_contrasenia">Repita la contraseña</string>
+    <string name="fragreg_error_introduzca_repetir_contrasenia_concuerden">Las contraseñas no coinciden</string>
 
 
 </resources>

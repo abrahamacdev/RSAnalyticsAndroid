@@ -139,9 +139,6 @@ public class LoginFragment extends Fragment {
 
 
     private void mostrarCarga(){
-
-        System.out.println(cardViewInputs);
-
         animacionCargando.setVisibility(View.VISIBLE);
         cardViewInputs.setVisibility(View.GONE);
     }

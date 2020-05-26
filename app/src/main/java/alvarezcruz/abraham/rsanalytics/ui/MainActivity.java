@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(@NonNull String s) {
 
+                        logger.log(Level.SEVERE, "Tenemos un token almacenado");
+
                         // Tenemos un token valido almacenado en local
                         irMenuPrincipal();
                     }
@@ -59,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
+
+                        logger.log(Level.SEVERE, "No tenemos ningun token");
 
                         // Tenemos que realizar el login
                         irPantallaLogin();
@@ -73,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void irPantallaRegistro(){
         RegistroFragment registroFragment = new RegistroFragment();
-        registroFragment.setOnRegistradoListener(this::irMenuPrincipal);
+        registroFragment.setOnRegistradoListener(this::irPantallaLogin);
+        registroFragment.setOnRegistradoYLogueadoListener(this::irMenuPrincipal);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()

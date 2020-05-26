@@ -15,6 +15,8 @@
     <dimen name="fraglog_margen_superior_inputs_card_view">48dp</dimen>
     <dimen name="fraglog_margen_izquierda_inputs_card_view">24dp</dimen>
     <dimen name="fraglog_margen_derecha_inputs_card_view">48dp</dimen>
+    <dimen name="fraglog_alto_boton_registrarse">32dp</dimen>
+    <dimen name="fraglog_tamanio_texto_boton_registrarse">14sp</dimen>
     <dimen name="fraglog_tamanio_labels_inputs">18sp</dimen>
     <dimen name="fraglog_espacio_label_input">24dp</dimen>
     <dimen name="fraglog_margen_izquierdo_mensaje_error">4dp</dimen>

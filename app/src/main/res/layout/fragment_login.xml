@@ -109,12 +109,14 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/botonRegistrarse"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/fraglog_alto_boton_registrarse"
                 android:layout_marginTop="@dimen/fraglog_margen_superior_crear_cuenta"
                 android:text="@string/fraglog_crear_cuenta"
                 android:textAlignment="center"
+                android:textSize="@dimen/fraglog_tamanio_texto_boton_registrarse"
                 android:clickable="true"
                 android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"
                 app:layout_constraintEnd_toStartOf="@+id/guideline15"
                 app:layout_constraintStart_toStartOf="@+id/guideline12"
                 app:layout_constraintTop_toBottomOf="@+id/errorContrasenia" />

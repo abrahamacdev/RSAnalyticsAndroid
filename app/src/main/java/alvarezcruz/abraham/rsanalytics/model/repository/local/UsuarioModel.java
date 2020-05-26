@@ -8,6 +8,9 @@ import android.util.Pair;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.airbnb.lottie.L;
+
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,11 +39,15 @@ public class UsuarioModel extends AndroidViewModel {
     public Maybe<String> getTokenLocal(){
 
         if (this.tokenLocal == null){
-            SharedPreferences sharedPreferences = getApplication().getSharedPreferences(
-                    getApplication().getResources().getString(R.string.archivo_preferencias_key), Context.MODE_PRIVATE);
+            Context context = getApplication().getApplicationContext();
 
-            String temp = sharedPreferences.getString(getApplication().getResources().getString(R.string.token_key), null);
+            String keyArchivo = getApplication().getResources().getString(R.string.archivo_preferencias_key);
+            SharedPreferences sharedPreferences = context.getSharedPreferences(keyArchivo, Context.MODE_PRIVATE);
 
+            String keyToken = getApplication().getResources().getString(R.string.token_key);
+            String temp = sharedPreferences.getString(keyToken, null);
+
+            // No hay ningun token almacenado
             if (temp == null){
                 return Maybe.empty();
             }
@@ -57,19 +64,27 @@ public class UsuarioModel extends AndroidViewModel {
 
     public Maybe<Pair<Integer,String>> getTokenRemotoYGuardarEnLocal(String correo, String contrasenia){
         return Maybe.create(emitter -> getTokenRemoto(correo,contrasenia).subscribe(par -> {
-                    guardarTokenEnLocal(par.second);
+
+                    if (par.first >= 200 && par.first < 300){
+                        guardarTokenEnLocal(par.second);
+                    }
+
                     emitter.onSuccess(par);
         }));
     }
 
     public void guardarTokenEnLocal(String token){
 
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(
-                getApplication().getResources().getString(R.string.archivo_preferencias_key), Context.MODE_PRIVATE);
+        String keyArchivo = getApplication().getResources().getString(R.string.archivo_preferencias_key);
 
+        Context context = getApplication().getApplicationContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(keyArchivo, Context.MODE_PRIVATE);
+
+        String keyToken = getApplication().getResources().getString(R.string.token_key);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(getApplication().getResources().getString(R.string.token_key), token);
-        editor.apply();
+        editor.putString(keyToken, token);
+        editor.commit();
+
 
         this.tokenLocal = token;
     }

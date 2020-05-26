@@ -20,6 +20,7 @@
         tools:ignore="MissingConstraints">
 
         <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
@@ -134,7 +135,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/guideline9"
                     app:layout_constraintStart_toStartOf="@+id/guideline7"
-                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
+                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+                    android:layout_marginTop="@dimen/fragreg_espacio_entre_inputs">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -168,7 +170,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/guideline9"
                     app:layout_constraintStart_toStartOf="@+id/guideline7"
-                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout3">
+                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout3"
+                    android:layout_marginTop="@dimen/fragreg_espacio_entre_inputs">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/labelGenero"
@@ -199,7 +202,7 @@
                     </RadioGroup>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/errorGeneroo"
+                        android:id="@+id/errorGenero"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/radioGroupGenero"
@@ -214,7 +217,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/guideline9"
                     app:layout_constraintStart_toStartOf="@+id/guideline7"
-                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout4">
+                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout4"
+                    android:layout_marginTop="@dimen/fragreg_espacio_entre_inputs">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -248,7 +252,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/guideline9"
                     app:layout_constraintStart_toStartOf="@+id/guideline7"
-                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout5">
+                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout5"
+                    android:layout_marginTop="@dimen/fragreg_espacio_entre_inputs">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -282,7 +287,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/guideline9"
                     app:layout_constraintStart_toStartOf="@+id/guideline7"
-                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout6">
+                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout6"
+                    android:layout_marginTop="@dimen/fragreg_espacio_entre_inputs">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -316,7 +322,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@+id/guideline9"
                     app:layout_constraintStart_toStartOf="@+id/guideline7"
-                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout7">
+                    app:layout_constraintTop_toBottomOf="@+id/relativeLayout7"
+                    android:layout_marginTop="@dimen/fragreg_espacio_entre_inputs">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -377,5 +384,43 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintGuide_end="@dimen/fragreg_ancho_guidelines_card_view" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/fraglog_ancho_guidelines_card_view" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/fraglog_ancho_guidelines_card_view" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewCarga"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/fraglog_alto_card_view"
+        android:background="@android:color/white"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            app:lottie_autoPlay="true"
+            android:elevation="100dp"
+            app:lottie_fileName="animacion_cargando.json"
+            app:lottie_loop="true" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

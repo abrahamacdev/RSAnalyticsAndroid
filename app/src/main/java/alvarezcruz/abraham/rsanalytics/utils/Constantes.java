@@ -10,10 +10,13 @@ public class Constantes {
 
     // Endpoints
     // Usuario
-    public final static String LOGIN_ENDPOINT = "/login";
+    public final static String LOGIN_USUARIO_ENDPOINT = "/login";
     public final static String REGISTRO_USUARIO_ENDPOINT = "/registro";
 
     // REGEX
     public final static String REGEX_CORREO = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    public final static String REGEX_NOMBRE_PERSONA = "^[A-Za-zñÑáéíóúÁÉÍÓÚ\\s]+$";
+    public final static String REGEX_CONTRASENIA = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])";
+    public final static String REGEX_TELEFONO = "^[0-9]{9}$";
 
 }
