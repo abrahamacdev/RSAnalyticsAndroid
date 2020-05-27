@@ -45,7 +45,7 @@ public class LoginFragment extends Fragment {
     private UsuarioRepository usuarioRepository;
 
     private Runnable onRegistrarseListener;
-    private Consumer<Usuario> onLogueadoListener;
+    private Runnable onLogueadoListener;
 
     private TextInputEditText inputCorreo;
     private TextInputEditText inputContrasenia;
@@ -108,13 +108,9 @@ public class LoginFragment extends Fragment {
                     // 200
                     if (par.first >= 200 && par.first < 300){
 
-                        usuarioModel.getUsuario()
-                                .subscribe(usuario -> {
-                                    if (onLogueadoListener != null){
-                                        onLogueadoListener.accept(usuario);
-                                    }
-                                },  error -> mostrarErrorEnSnackbar(getString(R.string.fraglog_error_inesperado)),
-                                    () -> mostrarErrorEnSnackbar(getString(R.string.fraglog_error_inesperado)));
+                        if (onLogueadoListener != null){
+                            onLogueadoListener.run();
+                        }
                     }
 
                     // 400
@@ -189,7 +185,7 @@ public class LoginFragment extends Fragment {
         this.onRegistrarseListener = onRegistrarseListener;
     }
 
-    public void setOnLogueadoListener(Consumer<Usuario> onLogueadoListener){
+    public void setOnLogueadoListener(Runnable onLogueadoListener){
         this.onLogueadoListener = onLogueadoListener;
     }
 }

@@ -1,6 +1,7 @@
 package alvarezcruz.abraham.rsanalytics.model.repository.local;
 
 import android.app.Application;
+import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Pair;
@@ -9,11 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.airbnb.lottie.L;
+
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
+import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import alvarezcruz.abraham.rsanalytics.model.repository.remote.UsuarioRepository;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableEmitter;
@@ -30,6 +35,7 @@ public class UsuarioModel extends AndroidViewModel {
 
     private MutableLiveData<String> ldTokenLocal;
     private MutableLiveData<Usuario> ldUsuario;
+    private MutableLiveData<ArrayList<Notificacion>> ldNotificaciones;
 
     public UsuarioModel(@NonNull Application application) {
         super(application);
@@ -38,7 +44,7 @@ public class UsuarioModel extends AndroidViewModel {
 
         ldUsuario = new MutableLiveData<>();
         ldTokenLocal = new MutableLiveData<>();
-
+        ldNotificaciones = new MutableLiveData<>();
     }
 
     // --- Token ---
@@ -135,28 +141,31 @@ public class UsuarioModel extends AndroidViewModel {
 
 
     // --- Usuario ---
-    public Maybe<Usuario> getUsuario(){
-        return Maybe.create(emitter -> {
+    public Maybe<Pair<Integer,Usuario>> getUsuario(){
 
-            // No hay ningun valor almacenado
-            if (this.ldUsuario.getValue() == null){
+        if (ldUsuario.getValue() == null){
+            return Maybe.create(emitter -> {
 
                 // Obtendremos los datos del usuario de internet
-                getUsuarioRemoto().subscribe(usuario -> {
+                getUsuarioRemoto().subscribe(par -> {
 
-                    this.ldUsuario.setValue(usuario);
-                    emitter.onSuccess(usuario);
+                    if (par.first == 200){
+                        ldUsuario.setValue(par.second);
+
+                    }
+
+                    emitter.onSuccess(par);
 
                 }, emitter::onError, emitter::onComplete);
-            }
+            });
+        }
 
-            else {
-                emitter.onSuccess(this.ldUsuario.getValue());
-            }
-        });
+        else {
+            return Maybe.just(new Pair<>(200,ldUsuario.getValue()));
+        }
     }
 
-    private Maybe<Usuario> getUsuarioRemoto(){
+    private Maybe<Pair<Integer, Usuario>> getUsuarioRemoto(){
         return Maybe.create(emitter -> {
 
             String token = getTokenLocalSync();
@@ -169,4 +178,37 @@ public class UsuarioModel extends AndroidViewModel {
         });
     }
     // ------
+
+
+    // --- Notificaciones ---
+    public MutableLiveData<ArrayList<Notificacion>> getNotificaciones(){
+        return this.ldNotificaciones;
+    }
+
+    public Completable recargarNotificacionesAsync(){
+        return Completable.create(emitter -> {
+            // Obtenemos el listado y lo almacenamos en el live data
+            usuarioRepository.obtenerListadoNotificaciones(getTokenLocalSync())
+                    .subscribe(par -> {
+
+                        if (par.first == 200){
+                            this.ldNotificaciones.postValue(par.second);
+                        }
+
+                        emitter.onComplete();
+                    }, emitter::onError, emitter::onComplete);
+        });
+    }
+
+    public void recargarNotificaciones(){
+        // Obtenemos el listado y lo almacenamos en el live data
+        usuarioRepository.obtenerListadoNotificaciones(getTokenLocalSync())
+                .subscribe(par -> {
+
+                    if (par.first == 200){
+                        this.ldNotificaciones.postValue(par.second);
+                    }
+                });
+    }
+    // ----------------------
 }

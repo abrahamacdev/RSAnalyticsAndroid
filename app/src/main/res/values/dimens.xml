@@ -37,4 +37,50 @@
     <dimen name="menuprin_padding_inferior_contenedor_boton_logout">16dp</dimen>
     <dimen name="menuprin_tamanio_texto_boton_logout">12sp</dimen>
 
+    <!-- nav_header_main.xml -->
+    <dimen name="navhedmain_alto_contenedor">192dp</dimen>
+    <dimen name="navhedmain_margen_izquierda_guideline_textos">24dp</dimen>
+    <dimen name="navhedmain_margen_izquierda_guideline_imagen">36dp</dimen>
+    <dimen name="navhedmain_margen_superior_imagen">26dp</dimen>
+    <dimen name="navhedmain_tamanio_imagen">76dp</dimen>
+    <dimen name="navhedmain_margen_superior_textos">12dp</dimen>
+
+    <!-- sin_notificaciones.xml -->
+    <dimen name="sinnot_margenes_laterales_guidelines_animacion">4dp</dimen>
+    <dimen name="sinnot_margen_inferior_guidelines_animacion">156dp</dimen>
+    <dimen name="sinnot_margenes_laterales_guidelines_texto">16dp</dimen>
+    <dimen name="sinnot_tamanio_texto_ups">22sp</dimen>
+    <dimen name="sinnot_tamanio_texto_desliza">16sp</dimen>
+    <dimen name="sinnot_espacio_entre_textos">16dp</dimen>
+
+    <!-- detalle_notificacion_informes.xml -->
+    <dimen name="detnotinf_elevation_card_view">16dp</dimen>
+    <dimen name="detnotinf_padding_vertical_contenedor_principal">8dp</dimen>
+    <dimen name="detnotinf_margin_vertical_contenedor_principal">10dp</dimen>
+    <dimen name="detnotinf_padding_lateral_contenedor_principal">16dp</dimen>
+    <dimen name="detnotinf_tamanio_contenedor_circulo">96dp</dimen>
+    <dimen name="detnotinf_tamanio_imagen_informe">56dp</dimen>
+    <dimen name="detnotinf_ancho_guideline_fecha_informe">16dp</dimen>
+    <dimen name="detnotinf_ancho_guideline_textos">16dp</dimen>
+    <dimen name="detnotinf_padding_superior_contenedor_textos">6dp</dimen>
+    <dimen name="detnotinf_tamanio_titulo_informe">18sp</dimen>
+    <dimen name="detnotinf_tamanio_fecha_solicitud_informe">14sp</dimen>
+    <dimen name="detnotinf_espacio_entre_textos">4dp</dimen>
+    <dimen name="detnotinf_margen_derecho_boton_descargar">8dp</dimen>
+    <dimen name="detnotinf_margen_inferior_boton_descargar">6dp</dimen>
+
+    <!-- detalle_notificacion_invitacion_grupo.xml -->
+    <dimen name="detnotinvgrup_ancho_contenedor_circulo">96dp</dimen>
+    <dimen name="detnotinvgrup_alto_contenedor_circulo">156dp</dimen>
+    <dimen name="detnotinvgrup_alto_imagen_informe">140dp</dimen>
+    <dimen name="detnotinvgrup_ancho_imagen_informe">92dp</dimen>
+    <dimen name="detnotinvgrup_margen_derecha_imagen_grupo">12dp</dimen>
+    <dimen name="detnotinvgrup_margen_inferior_imagen_grupo">0dp</dimen>
+    <dimen name="detnotinvgrup_espacio_entre_textos">4dp</dimen>
+    <dimen name="detnotinvgrup_tamanio_texto_invitacion">14sp</dimen>
+    <dimen name="detnotinvgrup_margenes_superior_contenedor_botones">8dp</dimen>
+    <dimen name="detnotinvgrup_margenes_laterales_boton_adhesion">12dp</dimen>
+    <dimen name="detnotinvgrup_altura_boton_adhesion">36dp</dimen>
+    <dimen name="detnotinvgrup_tamanio_texto_botones">12sp</dimen>
+
 </resources>

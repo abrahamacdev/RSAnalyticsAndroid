@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/detnotinf_margin_vertical_contenedor_principal"
+    app:cardUseCompatPadding="false"
+    app:cardElevation="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/constraintLayout40"
+            android:layout_width="@dimen/detnotinf_tamanio_contenedor_circulo"
+            android:layout_height="@dimen/detnotinf_tamanio_contenedor_circulo"
+            tools:ignore="MissingConstraints"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:layout_width="@dimen/detnotinf_tamanio_imagen_informe"
+                android:layout_height="@dimen/detnotinf_tamanio_imagen_informe"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_informe_disponible"/>
+
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout40"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingTop="@dimen/detnotinf_padding_superior_contenedor_textos">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline31"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/detnotinf_ancho_guideline_textos"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline32"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/detnotinf_ancho_guideline_fecha_informe"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewTituloNotificacionInforme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/detnotinf_tamanio_titulo_informe"
+                android:text="@string/detnotinf_titulo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline31"
+                app:layout_constraintTop_toTopOf="@+id/guideline33" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewFechaSolicitud"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/detnotinf_espacio_entre_textos"
+                android:text="Ya esta disponible el informe que solicitaste el dia 20 de Noviembre de 2020 a las 16:50"
+                android:textSize="@dimen/detnotinf_tamanio_fecha_solicitud_informe"
+                app:layout_constraintEnd_toStartOf="@+id/guideline32"
+                app:layout_constraintStart_toEndOf="@+id/guideline31"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTituloNotificacionInforme" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

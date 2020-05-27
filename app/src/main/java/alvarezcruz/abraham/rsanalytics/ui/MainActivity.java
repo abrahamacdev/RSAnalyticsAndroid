@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.airbnb.lottie.L;
+
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
@@ -51,26 +54,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(@NonNull String s) {
 
-                        // Tenemos un token en local, obtendremos la informacion general del usuario
-                        usuarioModel.getUsuario()
-                                .subscribe(usuario ->
-                                {
-                                    // Tenemos un token valido almacenado en local
-                                    irMenuPrincipal(usuario);
-
-                                }, error -> {
-
-                                    // Ocurrio un error, volveremos a la pantalla de loquin
-                                    usuarioModel.eliminarTokenLocalSync();
-                                    irPantallaLogin();
-
-                                }, () -> {
-
-                                    // Ocurrio un error, volveremos a la pantalla de loquin
-                                    usuarioModel.eliminarTokenLocalSync();
-                                    irPantallaLogin();
-
-                                });
+                        // Tenemos un token valido almacenado en local
+                        irMenuPrincipal();
                     }
 
                     @Override
@@ -85,10 +70,8 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void irMenuPrincipal(Usuario usuario){
+    private void irMenuPrincipal(){
         Intent i = new Intent(this, MenuPrincipalActivity.class);
-        Bundle extras = new Bundle();
-        extras.putSerializable("usuario", usuario);
         startActivity(i);
         finish();
     }
@@ -116,8 +99,4 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 }

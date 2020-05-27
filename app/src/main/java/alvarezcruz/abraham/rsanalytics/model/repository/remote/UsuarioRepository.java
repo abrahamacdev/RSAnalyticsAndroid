@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.JsonReader;
 import android.util.Pair;
 
+import com.airbnb.lottie.L;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -13,16 +14,20 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
+import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import alvarezcruz.abraham.rsanalytics.utils.Constantes;
 import alvarezcruz.abraham.rsanalytics.utils.Utils;
 import io.reactivex.rxjava3.core.Maybe;
@@ -119,7 +124,7 @@ public class UsuarioRepository {
     }
 
 
-    public Maybe<Usuario> obtenerInformacionGeneral(String token){
+    public Maybe<Pair<Integer, Usuario>> obtenerInformacionGeneral(String token){
         return Maybe.create(emitter -> {
 
             String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.INFORMACION_GENERAL_USUARIO_ENDPOINT;
@@ -131,9 +136,19 @@ public class UsuarioRepository {
                 String correo = (String) Utils.obtenerDelJSON(response, "correo");
                 String sexo = (String) Utils.obtenerDelJSON(response, "genero");
 
-                emitter.onSuccess(new Usuario(nombre, primerApellido, correo, sexo));
+                emitter.onSuccess(new Pair<>(200, new Usuario(nombre, primerApellido, correo, sexo)));
 
-            }, emitter::onError)
+            }, error -> {
+
+                int status = 500;
+
+                if (error.networkResponse != null){
+                    status = error.networkResponse.statusCode;
+                }
+
+                emitter.onSuccess(new Pair<>(status, null));
+
+            })
             {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
@@ -145,6 +160,69 @@ public class UsuarioRepository {
 
             // Añadimos la peticion a la cola
             Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+        });
+    }
+
+
+    public Maybe<Pair<Integer, ArrayList<Notificacion>>> obtenerListadoNotificaciones(String token){
+        return Maybe.create(emitter -> {
+
+            String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.RUTA_NOTIFICACIONES;
+
+            // Realizamos la peticion
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                    response -> {
+
+                        try {
+
+                            Object tempJsonArray = Utils.obtenerDelJSON(response, "notificaciones");
+
+                            JSONArray jsonArray = new JSONArray();
+
+                            if (tempJsonArray.getClass().getName().equals(String.class.getName())){
+                                jsonArray = new JSONArray((String) tempJsonArray);
+                            }
+                            else {
+                                jsonArray = (JSONArray) tempJsonArray;
+                            }
+
+
+                            ArrayList<Notificacion> notificaciones = new ArrayList<>(jsonArray.length());
+
+                            for (int i=0; i<jsonArray.length(); i++){
+                                notificaciones.add(new Notificacion((JSONObject) jsonArray.get(i)));
+                            }
+
+                            emitter.onSuccess(new Pair<>(200, notificaciones));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        emitter.onSuccess(new Pair<>(200, null));
+
+                    },  error -> {
+
+                        error.printStackTrace();
+
+                        int status = 500;
+
+                        if (error.networkResponse != null){
+                            status = error.networkResponse.statusCode;
+                        }
+
+                        emitter.onSuccess(new Pair<>(status, null));
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+
         });
     }
 

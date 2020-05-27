@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -13,21 +14,36 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.logging.Logger;
+
 import alvarezcruz.abraham.rsanalytics.R;
+import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.repository.local.UsuarioModel;
 import alvarezcruz.abraham.rsanalytics.ui.MainActivity;
+import alvarezcruz.abraham.rsanalytics.ui.informes.InformesFragment;
+import alvarezcruz.abraham.rsanalytics.ui.notificaciones.NotificacionesFragment;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MenuPrincipalActivity extends AppCompatActivity {
+public class MenuPrincipalActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String TAG_NAME = MenuPrincipalActivity.class.getName();
+
+    private Logger logger = Logger.getLogger(TAG_NAME);
+
+    private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
 
     private AppCompatButton botonLogout;
+    private CircleImageView avatar;
+    private TextView tvNombre, tvCorreo;
 
     private UsuarioModel usuarioModel;
 
@@ -38,12 +54,25 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         usuarioModel = new ViewModelProvider(this).get(UsuarioModel.class);
 
-        initView();
+        initViews();
+
+        parsearUsuario();
     }
 
-    private void initView(){
+    private void initViews(){
 
         setupToolbar();
+
+        navigationView = findViewById(R.id.nav_view);
+        View navHeader = navigationView.getHeaderView(0);
+
+        // Por defecto seleccionaremos la opcion de "Informes"
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_informes);
+
+        avatar = navHeader.findViewById(R.id.avatar);
+        tvNombre = navHeader.findViewById(R.id.textViewNombre);
+        tvCorreo = navHeader.findViewById(R.id.textViewCorreo);
 
         botonLogout = findViewById(R.id.botonDesloguearse);
         botonLogout.setOnClickListener(this::desloguear);
@@ -65,16 +94,78 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
     }
 
-    private void desloguear(View v){
+    private void parsearUsuario(){
 
-        usuarioModel.eliminarTokenLocalASync()
-            .subscribe(() -> {
-                Intent intent = new Intent(this,MainActivity.class);
-                intent.putExtra("classfrom", this.getClass().getName());
-                startActivity(intent);
-                finish();
-            });
+        usuarioModel.getUsuario()
+                .subscribe(par -> {
+
+                    int codigo = par.first;
+
+                    if (codigo == 200){
+
+                        Usuario usuario = par.second;
+
+                        tvNombre.setText(usuario.getNombre() + " " + usuario.getPrimerApellido());
+                        tvCorreo.setText(usuario.getCorreo());
+
+                        if (usuario.getSexo() == Usuario.Sexo.HOMBRE){
+                            avatar.setImageDrawable(getDrawable(R.drawable.ic_avatar_hombre));
+                        }
+                        else {
+                            avatar.setImageDrawable(getDrawable(R.drawable.ic_avatar_mujer));
+                        }
+
+                        tvNombre.setVisibility(View.VISIBLE);
+                        tvCorreo.setVisibility(View.VISIBLE);
+                        avatar.setVisibility(View.VISIBLE);
+                    }
+
+                    else {
+                        desloguear(null);
+                    }
+
+                }, error -> {
+                    desloguear(null);
+                });
     }
+
+
+
+    private void desloguear(View v){
+        usuarioModel.eliminarTokenLocalASync()
+            .subscribe(this::irAlMainActivity);
+    }
+
+    private void irAlMainActivity(){
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("classfrom", this.getClass().getName());
+        startActivity(intent);
+        finish();
+    }
+
+    private void mostrarSeccionInformes(){
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        InformesFragment informesFragment = new InformesFragment();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.contenedorFragmentos, informesFragment, InformesFragment.TAG_NAME)
+                .commit();
+    }
+
+    private void mostrarSeccionGrupo() {
+    }
+
+    private void mostrarSeccionNotificaciones() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        NotificacionesFragment notificacionesFragment = new NotificacionesFragment(this, usuarioModel);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.contenedorFragmentos, notificacionesFragment, NotificacionesFragment.TAG_NAME)
+                .commit();
+    }
+
 
 
     @Override
@@ -104,6 +195,38 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void cerrarDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+
     @Override
-    public void onBackPressed() {}
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        if (navigationView.getCheckedItem().getItemId() == item.getItemId()){
+            cerrarDrawer();
+            return false;
+        }
+
+        switch (item.getItemId()){
+
+            case R.id.nav_informes:
+                mostrarSeccionInformes();
+                break;
+
+            case R.id.nav_grupo:
+                mostrarSeccionGrupo();
+                break;
+
+            case R.id.nav_notificaciones:
+                mostrarSeccionNotificaciones();
+                break;
+        }
+
+        cerrarDrawer();
+
+        return true;
+
+    }
 }

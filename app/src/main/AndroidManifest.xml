@@ -3,8 +3,12 @@
     package="alvarezcruz.abraham.rsanalytics">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    
+
+
+    <!-- TODO ELiminar en produccion "usesCleartextTraffic"-->
     <application
+        android:hardwareAccelerated="true"
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

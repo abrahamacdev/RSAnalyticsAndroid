@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/detnotinf_margin_vertical_contenedor_principal"
+    app:cardUseCompatPadding="false"
+    app:cardElevation="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/constraintLayout40"
+            android:layout_width="@dimen/detnotinvgrup_ancho_contenedor_circulo"
+            android:layout_height="@dimen/detnotinvgrup_alto_contenedor_circulo"
+            tools:ignore="MissingConstraints"
+            android:background="@color/colorPrimary">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/detnotinvgrup_ancho_imagen_informe"
+                android:layout_height="@dimen/detnotinvgrup_alto_imagen_informe"
+                app:civ_circle_background_color="@color/colorPrimary"
+                android:src="@drawable/ic_equipo"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout40"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingTop="@dimen/detnotinf_padding_superior_contenedor_textos">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline31"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/detnotinf_ancho_guideline_textos"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewTituloNotificacionInvGrupo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/detnotinf_tamanio_titulo_informe"
+                android:text="@string/detnotinvgrup_titulo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline31"
+                app:layout_constraintTop_toTopOf="@+id/guideline33" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewMensajeAdhesion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/detnotinvgrup_espacio_entre_textos"
+                android:text="¡Hola! Soy Alejandra, responsable del grupo Los Papas Fritas y nos guastaria mucho que te unieras a nosotros. ¿Que opineas?"
+                android:textSize="@dimen/detnotinvgrup_tamanio_texto_invitacion"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline31"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTituloNotificacionInvGrupo" />
+
+            <RelativeLayout
+                android:id="@+id/contenedorAccionInvitacion"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/detnotinvgrup_altura_boton_adhesion"
+                android:layout_marginTop="@dimen/detnotinvgrup_margenes_superior_contenedor_botones"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/guideline31"
+                app:layout_constraintTop_toBottomOf="@+id/textViewMensajeAdhesion">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/botonConfirmarAdhesion"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/detnotinvgrup_altura_boton_adhesion"
+                    android:layout_marginRight="@dimen/detnotinvgrup_margenes_laterales_boton_adhesion"
+                    android:layout_toLeftOf="@id/separadorBotonesAdhesion"
+                    android:background="@color/colorAceptar"
+                    android:gravity="center"
+                    android:text="@string/detnotinvgrup_aceptar_invitacion"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/detnotinvgrup_tamanio_texto_botones" />
+
+                <View
+                    android:id="@+id/separadorBotonesAdhesion"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/botonRechazarAdhesion"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/detnotinvgrup_altura_boton_adhesion"
+                    android:layout_marginRight="@dimen/detnotinvgrup_margenes_laterales_boton_adhesion"
+                    android:layout_toRightOf="@id/separadorBotonesAdhesion"
+                    android:background="@color/colorRechazar"
+                    android:gravity="center"
+                    android:text="@string/detnotinvgrup_rechazar_invitacion"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/detnotinvgrup_tamanio_texto_botones" />
+
+            </RelativeLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

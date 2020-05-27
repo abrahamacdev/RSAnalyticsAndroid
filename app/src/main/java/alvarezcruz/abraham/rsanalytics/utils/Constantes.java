@@ -7,6 +7,7 @@ public class Constantes {
 
     // Paths
     public final static String RUTA_USUARIO = "/usuario";
+    public final static String RUTA_NOTIFICACIONES = "/notificaciones";
 
     // Endpoints
     // Usuario

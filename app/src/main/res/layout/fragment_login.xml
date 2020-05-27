@@ -201,7 +201,6 @@
             android:layout_height="match_parent"
             android:scaleType="center"
             app:lottie_autoPlay="true"
-            android:elevation="100dp"
             app:lottie_fileName="animacion_cargando.json"
             app:lottie_loop="true" />
 

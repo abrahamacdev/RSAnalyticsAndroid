@@ -1,10 +1,14 @@
 package alvarezcruz.abraham.rsanalytics.model.pojo;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Usuario implements Serializable {
 
-    enum Sexo {
+    public enum Sexo {
         HOMBRE,
         MUJER
     }
@@ -28,6 +32,12 @@ public class Usuario implements Serializable {
         this.primerApellido = primerApellido;
         this.correo = correo;
         this.sexo = sexo;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Usuario \'" + nombre + " " + primerApellido + "\'";
     }
 
     public String getNombre() {
@@ -59,6 +69,7 @@ public class Usuario implements Serializable {
     }
 
     public void setSexo(String sexo){
+
         if (sexo.equals("H")){
             this.sexo = Sexo.HOMBRE;
         }

@@ -13,6 +13,10 @@
 
     <string name="home_second">Home Second</string>
 
+    <!-- menu_principal_drawer.xml (menu) -->
+    <string name="menprindraw_informes">Informes</string>
+    <string name="menprindraw_grupo">Grupo</string>
+    <string name="menprindraw_notificaciones">Notificaciones</string>
 
     <!-- Shared Preferences -->
     <string name="archivo_preferencias_key">PREFERENCIAS</string>
@@ -56,5 +60,20 @@
 
     <!-- menu_principal.xml -->
     <string name="menuprin_boton_logout">Desconectar</string>
+
+    <!-- sin_notificaciones.xml -->
+    <string name="sinnot_ups">¡Vaya! Parece que aún no tienes ninguna notificación</string>
+    <string name="sinnot_desliza">(Desliza hacia abajo para recargar)</string>
+
+    <!-- detalle_notificacion_informes.xml -->
+    <string name="detnotinf_titulo">Informe disponible</string>
+
+    <!-- detalle_notificacion_invitacion_grupo.xml -->
+    <string name="detnotinvgrup_titulo">Invitación a grupo</string>
+    <string name="detnotinvgrup_aceptar_invitacion">¡Claro!</string>
+    <string name="detnotinvgrup_rechazar_invitacion">No, gracias</string>
+    <string name="detnotinvgrup_mensaje_adhesion_p1">¡Hola! Soy </string>
+    <string name="detnotinvgrup_mensaje_adhesion_p2">, responsable del grupo </string>
+    <string name="detnotinvgrup_mensaje_adhesion_p3"> y nos gustaria mucho que te unieras a nosotros. ¿Que opinas?</string>
 
 </resources>

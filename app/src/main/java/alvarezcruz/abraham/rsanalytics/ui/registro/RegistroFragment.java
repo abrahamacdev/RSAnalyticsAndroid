@@ -42,7 +42,7 @@ public class RegistroFragment extends Fragment {
     private UsuarioModel usuarioModel;
 
     private Runnable onRegistradoListener;
-    private Consumer<Usuario> onRegistradoYLogueadoListener;
+    private Runnable onRegistradoYLogueadoListener;
 
     private TextInputEditText inputNombre, inputPrimerApellido, inputSegundoApellido;
     private RadioGroup radioGroupGenero;
@@ -160,7 +160,7 @@ public class RegistroFragment extends Fragment {
                                                 .subscribe(usuario -> {
 
                                                     if (onRegistradoYLogueadoListener != null){
-                                                        onRegistradoYLogueadoListener.accept(usuario);
+                                                        onRegistradoYLogueadoListener.run();
                                                     }
 
                                                 },  error -> {
@@ -401,7 +401,7 @@ public class RegistroFragment extends Fragment {
         this.onRegistradoListener = onRegistradoListener;
     }
 
-    public void setOnRegistradoYLogueadoListener(Consumer<Usuario> onRegistradoYLogueadoListener){
+    public void setOnRegistradoYLogueadoListener(Runnable onRegistradoYLogueadoListener){
         this.onRegistradoYLogueadoListener = onRegistradoYLogueadoListener;
     }
 }

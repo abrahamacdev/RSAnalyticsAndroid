@@ -5,4 +5,7 @@
     <color name="colorAccent">#6ae3c0</color>
     <color name="colorSecondary">#f77408</color>
     <color name="colorSecondaryDark">#ae5315</color>
+
+    <color name="colorAceptar">#089A33</color>
+    <color name="colorRechazar">#D90707</color>
 </resources>
