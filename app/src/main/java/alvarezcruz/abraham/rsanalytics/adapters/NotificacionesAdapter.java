@@ -1,6 +1,7 @@
 package alvarezcruz.abraham.rsanalytics.adapters;
 
 import android.content.Context;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,22 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
+import alvarezcruz.abraham.rsanalytics.adapters.ViewHolders.AccionNotificacion;
 import alvarezcruz.abraham.rsanalytics.adapters.ViewHolders.NotificacionInformeViewHolder;
 import alvarezcruz.abraham.rsanalytics.adapters.ViewHolders.NotificacionInvGrupoViewHolder;
-import alvarezcruz.abraham.rsanalytics.adapters.ViewHolders.NotificacionViewHolder;
+import alvarezcruz.abraham.rsanalytics.adapters.ViewHolders.AbstractNotificacionViewHolder;
 import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
-import alvarezcruz.abraham.rsanalytics.ui.notificaciones.NotificacionesFragment;
+import io.reactivex.rxjava3.functions.Consumer;
 
-public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionViewHolder> {
+public class NotificacionesAdapter extends RecyclerView.Adapter<AbstractNotificacionViewHolder> {
 
     public static final String TAG_NAME = NotificacionesAdapter.class.getName();
 
     private Logger logger = Logger.getLogger(TAG_NAME);
 
+    private Consumer<Pair<Notificacion, Pair<AccionNotificacion, Object>>> onAccionListener;
 
     private ArrayList<Notificacion> notificaciones;
     private Context context;
@@ -47,18 +49,15 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionView
     @Override
     public int getItemViewType(int position) {
 
-        logger.log(Level.SEVERE, "getItemViewType");
-
         // 0 -> Invitacion  a grupo || 1 -> Informe
         return notificaciones.get(position).getAccion() == null ? 1 : 0;
     }
 
     @NonNull
     @Override
-    public NotificacionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AbstractNotificacionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        logger.log(Level.SEVERE, "OnCreateViewHolder  -> " + viewType);
-
+        AbstractNotificacionViewHolder abstractNotificacionViewHolder = null;
         View itemView = null;
 
         switch (viewType){
@@ -67,13 +66,27 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionView
             case 0:
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.detalle_notificacion_invitacion_grupo, parent, false);
-                return new NotificacionInvGrupoViewHolder(itemView, context);
+
+                abstractNotificacionViewHolder = new NotificacionInvGrupoViewHolder(itemView, context);
+
+                if (onAccionListener != null){
+                    abstractNotificacionViewHolder.setOnAccionListener(onAccionListener);
+                }
+
+                return abstractNotificacionViewHolder;
 
             // Informe
             case 1:
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.detalle_notificacion_informes, parent, false);
-                return new NotificacionInformeViewHolder(itemView, context);
+
+                abstractNotificacionViewHolder = new NotificacionInformeViewHolder(itemView, context);
+
+                if (onAccionListener != null){
+                    abstractNotificacionViewHolder.setOnAccionListener(onAccionListener);
+                }
+
+                return abstractNotificacionViewHolder;
         }
 
         return null;
@@ -85,7 +98,12 @@ public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NotificacionViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AbstractNotificacionViewHolder holder, int position) {
         holder.ligarNotificacion(notificaciones.get(position));
     }
+
+    public void setOnAccionListener(Consumer<Pair<Notificacion, Pair<AccionNotificacion, Object>>> onAccionListener){
+        this.onAccionListener = onAccionListener;
+    }
+
 }

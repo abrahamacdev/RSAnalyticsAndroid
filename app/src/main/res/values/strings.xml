@@ -58,6 +58,10 @@
     <string name="fragreg_error_introduzca_repetir_contrasenia">Repita la contraseña</string>
     <string name="fragreg_error_introduzca_repetir_contrasenia_concuerden">Las contraseñas no coinciden</string>
 
+    <!-- fragment_notificaciones.xml -->
+    <string name="fragnot_adhesion_grupo_exitosa">¡Enhorabuena! Ya eres un miembro del grupo</string>
+    <string name="fragnot_adhesion_grupo_fallida">Ups, no hemos podido añadirle al grupo</string>
+
     <!-- menu_principal.xml -->
     <string name="menuprin_boton_logout">Desconectar</string>
 

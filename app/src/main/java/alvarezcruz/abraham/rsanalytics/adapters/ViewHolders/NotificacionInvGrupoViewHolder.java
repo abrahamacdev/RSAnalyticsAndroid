@@ -11,20 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
-import alvarezcruz.abraham.rsanalytics.adapters.NotificacionesAdapter;
-import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Accion;
 import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 
-public class NotificacionInvGrupoViewHolder extends NotificacionViewHolder {
+public class NotificacionInvGrupoViewHolder extends AbstractNotificacionViewHolder {
 
     public static final String TAG_NAME = NotificacionInvGrupoViewHolder.class.getName();
 
     private Logger logger = Logger.getLogger(TAG_NAME);
 
+    private Notificacion notificacion;
 
     private AppCompatTextView tvMensajeAdhesion;
     private RelativeLayout relativeLayoutBotonAdhesion;
@@ -46,6 +44,8 @@ public class NotificacionInvGrupoViewHolder extends NotificacionViewHolder {
 
     @Override
     public void ligarNotificacion(Notificacion notificacion) {
+
+        this.notificacion = notificacion;
 
         // Si ya realizamos la accion esconderemos los botones
         if (notificacion.getAccion().isCompletada()){
@@ -71,16 +71,16 @@ public class NotificacionInvGrupoViewHolder extends NotificacionViewHolder {
 
         int id = v.getId();
 
-        Pair<AccionNotificacion,Object> res = null;
+        Pair<Notificacion, Pair<AccionNotificacion,Object>> res = null;
 
         switch (id){
 
             case R.id.botonConfirmarAdhesion:
-                res = new Pair<>(AccionNotificacion.INVITACION_GRUPO, true);
+                res = new Pair(notificacion, new Pair(AccionNotificacion.INVITACION_GRUPO, true));
                 break;
 
             case R.id.botonRechazarAdhesion:
-                res = new Pair<>(AccionNotificacion.INVITACION_GRUPO, false);
+                res = new Pair(notificacion, new Pair(AccionNotificacion.INVITACION_GRUPO, false));
                 break;
         }
 

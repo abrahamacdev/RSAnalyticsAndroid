@@ -29,7 +29,9 @@ import alvarezcruz.abraham.rsanalytics.R;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import alvarezcruz.abraham.rsanalytics.utils.Constantes;
+import alvarezcruz.abraham.rsanalytics.utils.RespuestaInvitacion;
 import alvarezcruz.abraham.rsanalytics.utils.Utils;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 
 public class UsuarioRepository {
@@ -47,6 +49,7 @@ public class UsuarioRepository {
     }
 
 
+    // --- Usuario ---
     public Maybe<Pair<Integer, String>> realizarLogin(String correo, String contrasenia){
         return Maybe.create(emitter -> {
 
@@ -122,8 +125,9 @@ public class UsuarioRepository {
             Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
         });
     }
+    // ---------------
 
-
+    // --- Informacion general ---
     public Maybe<Pair<Integer, Usuario>> obtenerInformacionGeneral(String token){
         return Maybe.create(emitter -> {
 
@@ -162,8 +166,9 @@ public class UsuarioRepository {
             Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
         });
     }
+    // ---------------------------
 
-
+    // --- Notificaciones ---
     public Maybe<Pair<Integer, ArrayList<Notificacion>>> obtenerListadoNotificaciones(String token){
         return Maybe.create(emitter -> {
 
@@ -226,4 +231,81 @@ public class UsuarioRepository {
         });
     }
 
+    public Completable marcarNotificacionesLeidas(String token, List<Integer> idsNotificaciones){
+        return Completable.create(emitter -> {
+
+            logger.log(Level.SEVERE, "Vamos a marcar como leidas las notificaciones: " + idsNotificaciones);
+
+            String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.RUTA_NOTIFICACIONES + Constantes.MARCAR_NOTIFICACIONES_LEIDAS_ENDPOINT;
+
+            JSONObject params = new JSONObject();
+            params.put("idsNotificaciones", idsNotificaciones);
+
+            // Realizamos la peticion
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, params,
+                    response -> {
+
+                        emitter.onComplete();
+
+                    }, emitter::onError) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+        });
+    }
+    // ----------------------
+
+    // --- Grupos ---
+    public Maybe<Integer> responderInvitacionGrupo(String token, int idNotificacion, RespuestaInvitacion respuestaInvitacion){
+        return Maybe.create(emitter -> {
+
+            logger.log(Level.SEVERE, "Hemos " + respuestaInvitacion.name().toLowerCase() + " una invitacion");
+
+            String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.RUTA_INVITACION;
+
+            if (respuestaInvitacion == RespuestaInvitacion.ACEPTAR){
+                url += Constantes.ACEPTAR_INVITACION_ENDPOINT;
+            }
+            else {
+                url += Constantes.RECHAZAR_INVITACION_ENDPOINT;
+            }
+
+            JSONObject params = new JSONObject();
+            params.put("idNotificacion", idNotificacion);
+
+            // Realizamos la peticion
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, params,
+                    response -> {
+
+                        emitter.onSuccess(200);
+
+                    }, error -> {
+
+                        int status = 500;
+
+                        if (error.networkResponse != null){
+                            status = error.networkResponse.statusCode;
+                        }
+
+                        emitter.onSuccess(status);
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+
+        });
+    }
+    // --------------
 }

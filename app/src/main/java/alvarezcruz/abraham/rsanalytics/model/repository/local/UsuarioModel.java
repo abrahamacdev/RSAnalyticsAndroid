@@ -13,17 +13,22 @@ import androidx.lifecycle.MutableLiveData;
 import com.airbnb.lottie.L;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import alvarezcruz.abraham.rsanalytics.R;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import alvarezcruz.abraham.rsanalytics.model.repository.remote.UsuarioRepository;
+import alvarezcruz.abraham.rsanalytics.utils.RespuestaInvitacion;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableEmitter;
 import io.reactivex.rxjava3.core.CompletableOnSubscribe;
 import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 
 public class UsuarioModel extends AndroidViewModel {
 
@@ -210,5 +215,28 @@ public class UsuarioModel extends AndroidViewModel {
                     }
                 });
     }
+
+    public void marcarNotificacionesLeidas(){
+
+        ArrayList<Notificacion> notificaciones = ldNotificaciones.getValue();
+
+        if (notificaciones == null || notificaciones.size() == 0){
+            return;
+        }
+
+        ArrayList<Integer> idsNotificaciones = new ArrayList<>(notificaciones.size());
+        Observable.fromIterable(notificaciones)
+                .map(Notificacion::getId)
+                .collect(() -> idsNotificaciones, ArrayList::add)
+                .subscribe();
+
+        usuarioRepository.marcarNotificacionesLeidas(ldTokenLocal.getValue(), idsNotificaciones);
+    }
     // ----------------------
+
+    // --- Grupo ---
+    public Maybe<Integer> responderInvitacionGrupo(int idNotificacion, RespuestaInvitacion respuestaInvitacion){
+        return usuarioRepository.responderInvitacionGrupo(ldTokenLocal.getValue(), idNotificacion, respuestaInvitacion);
+    }
+    // -------------
 }

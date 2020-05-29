@@ -10,6 +10,7 @@ import alvarezcruz.abraham.rsanalytics.utils.Utils;
 
 public class Notificacion {
 
+    private int id;
     private String mensaje;
     private boolean leida;
     private String emisor;
@@ -18,7 +19,8 @@ public class Notificacion {
 
     public Notificacion(){}
 
-    public Notificacion(String mensaje, boolean leida, String emisor, Accion accion, Date fechaEnvio) {
+    public Notificacion(int id, String mensaje, boolean leida, String emisor, Accion accion, Date fechaEnvio) {
+        this.id = id;
         this.mensaje = mensaje;
         this.leida = leida;
         this.emisor = emisor;
@@ -32,21 +34,26 @@ public class Notificacion {
 
     private void parsearJson(JSONObject jsonObject){
 
-        System.out.println(jsonObject);
-
+        this.id = jsonObject.optInt("id", -1);
         this.mensaje = jsonObject.optString("mensaje", "");
         this.leida = jsonObject.optBoolean("leida", false);
         this.fechaEnvio = jsonObject.has("fecha") ? new Date((Long) Utils.obtenerDelJSON(jsonObject,"fecha")) : null;
         this.emisor = jsonObject.optString("emisor", null);
         this.accion = jsonObject.has("accion") ? new Accion((JSONObject) Utils.obtenerDelJSON(jsonObject, "accion")) : null;
-
-        System.out.println(this);
     }
 
     @NonNull
     @Override
     public String toString() {
         return "Notificacion enviada por \'" + emisor + "\'. Tiene accion (" + (accion != null) +  "). Tiene mensaje (" + (mensaje != null) + ")" ;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMensaje() {

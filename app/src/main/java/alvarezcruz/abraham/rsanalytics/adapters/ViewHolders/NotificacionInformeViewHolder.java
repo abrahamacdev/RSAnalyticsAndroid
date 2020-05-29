@@ -6,13 +6,10 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import alvarezcruz.abraham.rsanalytics.R;
 import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 
-public class NotificacionInformeViewHolder extends NotificacionViewHolder {
+public class NotificacionInformeViewHolder extends AbstractNotificacionViewHolder {
 
     private AppCompatTextView tvFechaInforme;
 

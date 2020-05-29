@@ -11,13 +11,13 @@ import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.functions.Function;
 
-public abstract class NotificacionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public abstract class AbstractNotificacionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     protected View.OnClickListener onClickListener;
-    protected Consumer<Pair<AccionNotificacion, Object>> onAccionListener;
+    protected Consumer<Pair<Notificacion, Pair<AccionNotificacion, Object>>> onAccionListener;
     private Context context;
 
-    public NotificacionViewHolder(@NonNull View itemView, Context context) {
+    public AbstractNotificacionViewHolder(@NonNull View itemView, Context context) {
         super(itemView);
         itemView.setOnClickListener(this);
         this.context = context;
@@ -29,7 +29,7 @@ public abstract class NotificacionViewHolder extends RecyclerView.ViewHolder imp
         this.onClickListener = onClickListener;
     }
 
-    public void setOnAccionListener(Consumer<Pair<AccionNotificacion, Object>> onAccionListener){
+    public void setOnAccionListener(Consumer<Pair<Notificacion, Pair<AccionNotificacion, Object>>> onAccionListener){
         this.onAccionListener = onAccionListener;
     }
 
