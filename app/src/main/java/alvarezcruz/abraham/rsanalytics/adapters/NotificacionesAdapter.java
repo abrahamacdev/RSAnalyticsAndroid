@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
-import alvarezcruz.abraham.rsanalytics.adapters.ViewHolders.AccionNotificacion;
-import alvarezcruz.abraham.rsanalytics.adapters.ViewHolders.NotificacionInformeViewHolder;
-import alvarezcruz.abraham.rsanalytics.adapters.ViewHolders.NotificacionInvGrupoViewHolder;
-import alvarezcruz.abraham.rsanalytics.adapters.ViewHolders.AbstractNotificacionViewHolder;
+import alvarezcruz.abraham.rsanalytics.adapters.viewHolders.notificaciones.AccionNotificacion;
+import alvarezcruz.abraham.rsanalytics.adapters.viewHolders.notificaciones.NotificacionInformeViewHolder;
+import alvarezcruz.abraham.rsanalytics.adapters.viewHolders.notificaciones.NotificacionInvGrupoViewHolder;
+import alvarezcruz.abraham.rsanalytics.adapters.viewHolders.notificaciones.AbstractNotificacionViewHolder;
 import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import io.reactivex.rxjava3.functions.Consumer;
 

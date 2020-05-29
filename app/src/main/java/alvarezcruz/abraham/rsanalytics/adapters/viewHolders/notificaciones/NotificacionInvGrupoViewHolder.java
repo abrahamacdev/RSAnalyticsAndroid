@@ -1,4 +1,4 @@
-package alvarezcruz.abraham.rsanalytics.adapters.ViewHolders;
+package alvarezcruz.abraham.rsanalytics.adapters.viewHolders.notificaciones;
 
 import android.content.Context;
 import android.os.Build;

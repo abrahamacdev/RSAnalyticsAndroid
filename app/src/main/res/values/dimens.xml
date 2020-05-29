@@ -63,6 +63,20 @@
     <dimen name="sinnot_tamanio_texto_desliza">16sp</dimen>
     <dimen name="sinnot_espacio_entre_textos">16dp</dimen>
 
+    <!-- sin_grupo.xml -->
+    <dimen name="singru_tamanio_boton_crear_grupo">256dp</dimen>
+    <dimen name="singru_margen_superior_boton_crear_grupo">24dp</dimen>
+
+    <!-- detalle_miembro_grupo.xml -->
+    <dimen name="detmiegru_margen_lateral_card">16dp</dimen>
+    <dimen name="detmiegru_padding_vertical_card">12dp</dimen>
+    <dimen name="detmiegru_tamanio_imagen">96dp</dimen>
+    <dimen name="detmiegru_ancho_texto_nombre">264dp</dimen>
+    <dimen name="detmiegru_margen_superior_texto_nombre">28dp</dimen>
+    <dimen name="detmiegru_margen_superior_texto_fecha">14dp</dimen>
+    <dimen name="detmiegru_tamanio_texto_nombre">18sp</dimen>
+    <dimen name="detmiegru_tamanio_texto_fecha">14sp</dimen>
+
     <!-- detalle_notificacion_informes.xml -->
     <dimen name="detnotinf_elevation_card_view">16dp</dimen>
     <dimen name="detnotinf_padding_vertical_contenedor_principal">8dp</dimen>
@@ -92,5 +106,16 @@
     <dimen name="detnotinvgrup_margenes_laterales_boton_adhesion">12dp</dimen>
     <dimen name="detnotinvgrup_altura_boton_adhesion">36dp</dimen>
     <dimen name="detnotinvgrup_tamanio_texto_botones">12sp</dimen>
+
+    <!-- dialogo_crear_grupo.xml -->
+    <dimen name="diacregru_ancho_contenedor">256dp</dimen>
+    <dimen name="diacregru_alto_contenedor">192dp</dimen>
+    <dimen name="diacregru_margen_superior_input">42dp</dimen>
+    <dimen name="diacregru_margen_izquierdo_input">24dp</dimen>
+    <dimen name="diacregru_ancho_input">172dp</dimen>
+    <dimen name="diacregru_margenes_laterales_boton">32dp</dimen>
+    <dimen name="diacregru_margen_superior_imagen_res_nombre">48dp</dimen>
+    <dimen name="diacregru_margen_izquierdo_imagen_res_nombre">16dp</dimen>
+    <dimen name="diacregru_tamanio_texto_res_accion">16sp</dimen>
 
 </resources>

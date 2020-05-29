@@ -21,12 +21,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.repository.local.UsuarioModel;
 import alvarezcruz.abraham.rsanalytics.ui.MainActivity;
+import alvarezcruz.abraham.rsanalytics.ui.grupo.GrupoFragment;
 import alvarezcruz.abraham.rsanalytics.ui.informes.InformesFragment;
 import alvarezcruz.abraham.rsanalytics.ui.notificaciones.NotificacionesFragment;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -132,14 +134,20 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
 
 
     private void desloguear(View v){
-        usuarioModel.eliminarTokenLocalASync()
-            .subscribe(this::irAlMainActivity);
+        usuarioModel.eliminarTokenLocalAsync()
+            .subscribe(() -> {
+                logger.log(Level.SEVERE, "Nos deslogueamos");
+                irAlMainActivity();
+            });
     }
 
     private void irAlMainActivity(){
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("classfrom", this.getClass().getName());
         startActivity(intent);
+
+        logger.log(Level.SEVERE, "Hasta luego!");
+
         finish();
     }
 
@@ -154,6 +162,14 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
     }
 
     private void mostrarSeccionGrupo() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        GrupoFragment grupoFragment = new GrupoFragment(this, usuarioModel);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.contenedorFragmentos, grupoFragment, GrupoFragment.TAG_NAME)
+                .commit();
+
     }
 
     private void mostrarSeccionNotificaciones() {

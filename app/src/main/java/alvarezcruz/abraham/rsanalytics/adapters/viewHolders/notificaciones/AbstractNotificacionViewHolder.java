@@ -1,4 +1,4 @@
-package alvarezcruz.abraham.rsanalytics.adapters.ViewHolders;
+package alvarezcruz.abraham.rsanalytics.adapters.viewHolders.notificaciones;
 
 import android.content.Context;
 import android.util.Pair;
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import io.reactivex.rxjava3.functions.Consumer;
-import io.reactivex.rxjava3.functions.Function;
 
 public abstract class AbstractNotificacionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 

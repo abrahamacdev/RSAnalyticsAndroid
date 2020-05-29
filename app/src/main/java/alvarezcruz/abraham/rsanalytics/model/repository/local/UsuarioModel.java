@@ -24,11 +24,9 @@ import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import alvarezcruz.abraham.rsanalytics.model.repository.remote.UsuarioRepository;
 import alvarezcruz.abraham.rsanalytics.utils.RespuestaInvitacion;
 import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.CompletableEmitter;
-import io.reactivex.rxjava3.core.CompletableOnSubscribe;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class UsuarioModel extends AndroidViewModel {
 
@@ -41,6 +39,7 @@ public class UsuarioModel extends AndroidViewModel {
     private MutableLiveData<String> ldTokenLocal;
     private MutableLiveData<Usuario> ldUsuario;
     private MutableLiveData<ArrayList<Notificacion>> ldNotificaciones;
+    private MutableLiveData<ArrayList<Usuario>> ldMiembros;
 
     public UsuarioModel(@NonNull Application application) {
         super(application);
@@ -50,6 +49,7 @@ public class UsuarioModel extends AndroidViewModel {
         ldUsuario = new MutableLiveData<>();
         ldTokenLocal = new MutableLiveData<>();
         ldNotificaciones = new MutableLiveData<>();
+        ldMiembros = new MutableLiveData<>();
     }
 
     // --- Token ---
@@ -122,6 +122,8 @@ public class UsuarioModel extends AndroidViewModel {
 
     public void eliminarTokenLocalSync(){
 
+        logger.log(Level.SEVERE, "ELliminando token");
+
         String keyArchivo = getApplication().getResources().getString(R.string.archivo_preferencias_key);
 
         Context context = getApplication().getApplicationContext();
@@ -136,10 +138,18 @@ public class UsuarioModel extends AndroidViewModel {
         this.ldTokenLocal.postValue(null);
     }
 
-    public Completable eliminarTokenLocalASync(){
+    public Completable eliminarTokenLocalAsync(){
         return Completable.create(emitter -> {
-            eliminarTokenLocalSync();
-            emitter.onComplete();
+
+            Runnable runnable = () -> { eliminarTokenLocalSync(); };
+
+            Completable.fromRunnable(runnable)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(() -> {
+                        logger.log(Level.SEVERE,"Eliminado");
+                        emitter.onComplete();
+                    }, e -> {});
+
         });
     }
     // -----
@@ -194,6 +204,7 @@ public class UsuarioModel extends AndroidViewModel {
         return Completable.create(emitter -> {
             // Obtenemos el listado y lo almacenamos en el live data
             usuarioRepository.obtenerListadoNotificaciones(getTokenLocalSync())
+                    .subscribeOn(Schedulers.io())
                     .subscribe(par -> {
 
                         if (par.first == 200){
@@ -237,6 +248,40 @@ public class UsuarioModel extends AndroidViewModel {
     // --- Grupo ---
     public Maybe<Integer> responderInvitacionGrupo(int idNotificacion, RespuestaInvitacion respuestaInvitacion){
         return usuarioRepository.responderInvitacionGrupo(ldTokenLocal.getValue(), idNotificacion, respuestaInvitacion);
+    }
+
+    public MutableLiveData<ArrayList<Usuario>> getMiembros(){
+        return this.ldMiembros;
+    }
+
+    public void recargarMiembrosAsync(){
+        // Obtenemos el listado y lo almacenamos en el live data
+        usuarioRepository.obtenerMiembros(this.ldTokenLocal.getValue())
+                .subscribeOn(Schedulers.io())
+                .subscribe(par -> {
+
+                    if (par.first == 200){
+                        this.ldMiembros.postValue(par.second);
+                    }
+
+                    // No pertenece a ningun grupo
+                    else if (par.first == 400){
+                        this.ldMiembros.postValue(new ArrayList<>(0));
+                    }
+
+
+                }, Throwable::printStackTrace);
+    }
+
+    public void recargarMiembros(){
+        // Obtenemos el listado y lo almacenamos en el live data
+        usuarioRepository.obtenerMiembros(this.ldTokenLocal.getValue())
+                .subscribe(par -> {
+
+                    if (par.first == 200){
+                        this.ldMiembros.postValue(par.second);
+                    }
+                });
     }
     // -------------
 }

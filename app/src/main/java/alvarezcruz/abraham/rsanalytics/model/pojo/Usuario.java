@@ -2,6 +2,8 @@ package alvarezcruz.abraham.rsanalytics.model.pojo;
 
 import androidx.annotation.NonNull;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,23 +17,39 @@ public class Usuario implements Serializable {
 
     private String nombre;
     private String primerApellido;
+    private String segundoApellido;
     private String correo;
+    private boolean esMiembro;
+    private long fechaMiembro;
     private Sexo sexo;
 
     public Usuario(){}
 
-    public Usuario(String nombre, String primerApellido, String correo, String sexo) {
+    public Usuario(String nombre, String primerApellido, String correo, boolean esResponsable, String sexo) {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.correo = correo;
+        this.esMiembro = esResponsable;
         setSexo(sexo);
     }
 
-    public Usuario(String nombre, String primerApellido, String correo, Sexo sexo) {
+    public Usuario(String nombre, String primerApellido, String correo, boolean esResponsable, Sexo sexo) {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.correo = correo;
+        this.esMiembro = esResponsable;
         this.sexo = sexo;
+    }
+
+    public static Usuario miembroFromJson(JSONObject jsonObject){
+
+        Usuario usuario = new Usuario();
+
+        usuario.nombre = jsonObject.optString("nombre", "");
+        usuario.fechaMiembro = jsonObject.optLong("miembroDesde", -1);
+        usuario.setSexo(jsonObject.optString("genero", ""));
+
+        return usuario;
     }
 
     @NonNull
@@ -81,5 +99,21 @@ public class Usuario implements Serializable {
 
     public void setSexo(Sexo sexo) {
         this.sexo = sexo;
+    }
+
+    public String getSegundoApellido() {
+        return segundoApellido;
+    }
+
+    public void setSegundoApellido(String segundoApellido) {
+        this.segundoApellido = segundoApellido;
+    }
+
+    public long getFechaMiembro() {
+        return fechaMiembro;
+    }
+
+    public void setFechaMiembro(long fechaMiembro) {
+        this.fechaMiembro = fechaMiembro;
     }
 }

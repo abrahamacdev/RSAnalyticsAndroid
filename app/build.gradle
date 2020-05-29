@@ -62,4 +62,7 @@ dependencies {
 
     // CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // FAB Menu
+    implementation 'com.github.joaquimley:faboptions:1.2.0'
 }

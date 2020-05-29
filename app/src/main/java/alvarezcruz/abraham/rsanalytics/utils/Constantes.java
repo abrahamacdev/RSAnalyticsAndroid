@@ -19,6 +19,7 @@ public class Constantes {
     public final static String MARCAR_NOTIFICACIONES_LEIDAS_ENDPOINT = "/marcarNotificaciones";
     public final static String ACEPTAR_INVITACION_ENDPOINT = "/aceptar";
     public final static String RECHAZAR_INVITACION_ENDPOINT = "/rechazar";
+    public final static String DATOS_GENERALES_GRUPO_ENDPOINT = "/datosGenerales";
 
     // REGEX
     public final static String REGEX_CORREO = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";

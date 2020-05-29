@@ -133,14 +133,16 @@ public class UsuarioRepository {
 
             String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.INFORMACION_GENERAL_USUARIO_ENDPOINT;
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
 
-                String nombre = (String) Utils.obtenerDelJSON(response, "nombre");
-                String primerApellido = (String) Utils.obtenerDelJSON(response, "primerApellido");
-                String correo = (String) Utils.obtenerDelJSON(response, "correo");
-                String sexo = (String) Utils.obtenerDelJSON(response, "genero");
+                    String nombre = (String) Utils.obtenerDelJSON(response, "nombre");
+                    String primerApellido = (String) Utils.obtenerDelJSON(response, "primerApellido");
+                    String correo = (String) Utils.obtenerDelJSON(response, "correo");
+                    String sexo = (String) Utils.obtenerDelJSON(response, "genero");
+                    boolean esResponsable = response.optBoolean("esResponsable", false);
 
-                emitter.onSuccess(new Pair<>(200, new Usuario(nombre, primerApellido, correo, sexo)));
+                    emitter.onSuccess(new Pair<>(200, new Usuario(nombre, primerApellido, correo, esResponsable, sexo)));
 
             }, error -> {
 
@@ -265,8 +267,6 @@ public class UsuarioRepository {
     public Maybe<Integer> responderInvitacionGrupo(String token, int idNotificacion, RespuestaInvitacion respuestaInvitacion){
         return Maybe.create(emitter -> {
 
-            logger.log(Level.SEVERE, "Hemos " + respuestaInvitacion.name().toLowerCase() + " una invitacion");
-
             String url = Constantes.URL_SERVER + Constantes.RUTA_GRUPO + Constantes.RUTA_INVITACION;
 
             if (respuestaInvitacion == RespuestaInvitacion.ACEPTAR){
@@ -294,6 +294,62 @@ public class UsuarioRepository {
                         }
 
                         emitter.onSuccess(status);
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+
+        });
+    }
+
+    public Maybe<Pair<Integer, ArrayList<Usuario>>> obtenerMiembros(String token){
+        return Maybe.create(emitter -> {
+
+            String url = Constantes.URL_SERVER + Constantes.RUTA_GRUPO + Constantes.DATOS_GENERALES_GRUPO_ENDPOINT;
+
+            // Realizamos la peticion
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                    response -> {
+
+                        logger.log(Level.SEVERE, response.toString());
+
+                        try {
+
+                            JSONObject jsonGrupo = (JSONObject) Utils.obtenerDelJSON(response, "grupo");
+
+                            JSONArray miembros = jsonGrupo.getJSONArray("miembros");
+
+                            ArrayList<Usuario> listadoMiembros = new ArrayList(miembros.length());
+
+                            for (int i=0; i<miembros.length(); i++){
+                                listadoMiembros.add(Usuario.miembroFromJson(miembros.getJSONObject(i)));
+                            }
+
+                            emitter.onSuccess(new Pair<>(200, listadoMiembros));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        emitter.onSuccess(new Pair<>(200, null));
+
+                    },  error -> {
+
+                    error.printStackTrace();
+
+                    int status = 500;
+
+                    if (error.networkResponse != null){
+                        status = error.networkResponse.statusCode;
+                    }
+
+                    emitter.onSuccess(new Pair<>(status, null));
             }) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {

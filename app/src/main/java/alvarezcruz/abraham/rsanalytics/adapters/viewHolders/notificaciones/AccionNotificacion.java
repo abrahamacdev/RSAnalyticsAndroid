@@ -1,4 +1,4 @@
-package alvarezcruz.abraham.rsanalytics.adapters.ViewHolders;
+package alvarezcruz.abraham.rsanalytics.adapters.viewHolders.notificaciones;
 
 public enum AccionNotificacion {
     INVITACION_GRUPO(1);

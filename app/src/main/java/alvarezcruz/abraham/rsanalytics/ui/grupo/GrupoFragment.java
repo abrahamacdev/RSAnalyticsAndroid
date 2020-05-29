@@ -1,7 +1,6 @@
-package alvarezcruz.abraham.rsanalytics.ui.notificaciones;
+package alvarezcruz.abraham.rsanalytics.ui.grupo;
 
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -22,46 +22,47 @@ import com.airbnb.lottie.LottieAnimationView;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
-import alvarezcruz.abraham.rsanalytics.adapters.NotificacionesAdapter;
-import alvarezcruz.abraham.rsanalytics.adapters.viewHolders.notificaciones.AccionNotificacion;
+import alvarezcruz.abraham.rsanalytics.adapters.GrupoAdapter;
 import alvarezcruz.abraham.rsanalytics.adapters.decorators.EdgeDecorator;
-import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
+import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.repository.local.UsuarioModel;
 import alvarezcruz.abraham.rsanalytics.ui.menuPrincipal.MenuPrincipalActivity;
-import alvarezcruz.abraham.rsanalytics.utils.RespuestaInvitacion;
+import alvarezcruz.abraham.rsanalytics.ui.notificaciones.NotificacionesFragment;
 import io.reactivex.rxjava3.core.Emitter;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.functions.Consumer;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class NotificacionesFragment extends Fragment {
+public class GrupoFragment extends Fragment implements View.OnClickListener {
 
     public static final String TAG_NAME = NotificacionesFragment.class.getName();
 
     private Logger logger = Logger.getLogger(TAG_NAME);
 
     private UsuarioModel usuarioModel;
-    private LiveData<ArrayList<Notificacion>> ldNotificaciones;
+    private LiveData<ArrayList<Usuario>> ldMiembros;
 
     private MenuPrincipalActivity menuPrincipalActivity;
 
     private ConstraintLayout contenedorAnimacion;
-    private ConstraintLayout contenedorSinNotificaciones;
-    private ConstraintLayout contenedorListadoNotificaciones;
+    private ConstraintLayout contenedorSinGrupo;
+    private ConstraintLayout contenedorListadoMiembros;
 
     private RecyclerView recyclerView;
-    private NotificacionesAdapter notificacionesAdapter;
+    private GrupoAdapter grupoAdapter;
+
+    private AppCompatButton botonCrearGrupo;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    public NotificacionesFragment(){}
 
-    public NotificacionesFragment(MenuPrincipalActivity menuPrincipalActivity, UsuarioModel usuarioModel){
+    public GrupoFragment(){}
+
+    public GrupoFragment(MenuPrincipalActivity menuPrincipalActivity, UsuarioModel usuarioModel){
         this.usuarioModel = usuarioModel;
-        this.ldNotificaciones = usuarioModel.getNotificaciones();
+        this.ldMiembros = usuarioModel.getMiembros();
         this.menuPrincipalActivity = menuPrincipalActivity;
     }
 
@@ -70,36 +71,40 @@ public class NotificacionesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_notificaciones, container, false);
+        View view = inflater.inflate(R.layout.fragment_grupo, container, false);
 
         initViews(view);
 
-        setupNotificaciones();
+        refrescarDatosGrupo();
 
         return view;
+
     }
 
     private void initViews(View view){
-        contenedorSinNotificaciones = view.findViewById(R.id.contenedorSinNotificaciones);
-        contenedorAnimacion = view.findViewById(R.id.contenedorAnimacion);
-        contenedorListadoNotificaciones = view.findViewById(R.id.contenedorListadoNotificaciones);
 
-        notificacionesAdapter = new NotificacionesAdapter(getContext());
-        notificacionesAdapter.setOnAccionListener(onAccionListener());
+        contenedorSinGrupo = view.findViewById(R.id.contenedorSinGrupo);
+        contenedorAnimacion = view.findViewById(R.id.contenedorAnimacion);
+        contenedorListadoMiembros = view.findViewById(R.id.contenedorListadoMiembrosGrupo);
+
+        botonCrearGrupo = view.findViewById(R.id.botonCrearGrupo);
+        botonCrearGrupo.setOnClickListener(this);
+
+        grupoAdapter = new GrupoAdapter(getContext());
         recyclerView = view.findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new EdgeDecorator(getResources().getDimension(R.dimen.lisnot_padding_vertical_recycler)));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(notificacionesAdapter);
+        recyclerView.setAdapter(grupoAdapter);
 
         swipeRefreshLayout = view.findViewById(R.id.swipeLayout);
-        swipeRefreshLayout.setOnRefreshListener(this::setupNotificaciones);
+        swipeRefreshLayout.setOnRefreshListener(this::refrescarDatosGrupo);
     }
 
-    private void setupNotificaciones(){
+    private void refrescarDatosGrupo(){
 
-        // MOstramos el indicador del swipeRefreshLayout si no se esta mostrando la
+        // Mostramos el indicador del swipeRefreshLayout si no se esta mostrando la
         // animacion de los circulitos
         if (contenedorAnimacion.getVisibility() != View.VISIBLE){
             swipeRefreshLayout.setRefreshing(true);
@@ -107,7 +112,9 @@ public class NotificacionesFragment extends Fragment {
 
 
         // Observamos las notificaciones
-        ldNotificaciones.observe(menuPrincipalActivity, notificaciones -> {
+        ldMiembros.observe(menuPrincipalActivity, miembros -> {
+
+            logger.log(Level.SEVERE, "YA tenemos respuesta");
 
             // Escondenmos la animacion por defecto si esta se estra mostrando
             if (contenedorAnimacion.getVisibility() == View.VISIBLE){
@@ -120,14 +127,14 @@ public class NotificacionesFragment extends Fragment {
             }
 
             // EL usuario tiene notificaciones
-            if (notificaciones.size() > 0){
+            if (miembros.size() > 0){
 
                 // Actualizamos el listado de notificaciones
-                notificacionesAdapter.actualizarTodasNotificaciones(notificaciones);
+                grupoAdapter.actualizarTodosMiembros(miembros);
 
                 // Recargamos el listado de notificaciones y lo mostramos
-                contenedorListadoNotificaciones.setVisibility(View.VISIBLE);
-                contenedorSinNotificaciones.setVisibility(View.GONE);
+                contenedorListadoMiembros.setVisibility(View.VISIBLE);
+                contenedorSinGrupo.setVisibility(View.GONE);
 
                 // Marcamos las notificaciones como leidas
                 usuarioModel.marcarNotificacionesLeidas();
@@ -137,59 +144,16 @@ public class NotificacionesFragment extends Fragment {
             else {
 
                 // Mostramos el mensaje de "No hay notificaciones aun"
-                contenedorSinNotificaciones.setVisibility(View.VISIBLE);
-                contenedorListadoNotificaciones.setVisibility(View.GONE);
+                contenedorSinGrupo.setVisibility(View.VISIBLE);
+                contenedorListadoMiembros.setVisibility(View.GONE);
             }
         });
 
         // Forzamos el recargado del listado de notificaciones
-        usuarioModel.recargarNotificaciones();
+        usuarioModel.recargarMiembrosAsync();
     }
 
-    private Consumer<Pair<Notificacion, Pair<AccionNotificacion, Object>>> onAccionListener(){
-        return accionNotificacionObjectPair -> {
-
-            Notificacion notificacion = accionNotificacionObjectPair.first;
-            Object respuestaAccion = accionNotificacionObjectPair.second.second;
-            AccionNotificacion accionNotificacion = accionNotificacionObjectPair.second.first;
-
-            switch (accionNotificacion){
-
-                case INVITACION_GRUPO:
-                    int idNotificacion = notificacion.getId();
-                    RespuestaInvitacion respuestaInvitacion = ((boolean) respuestaAccion) ? RespuestaInvitacion.ACEPTAR : RespuestaInvitacion.RECHAZAR;
-                    manejarInvitacionGrupo(idNotificacion, respuestaInvitacion);
-            }
-
-        };
-    }
-
-    private void manejarInvitacionGrupo(int id, RespuestaInvitacion resRespuestaInvitacion){
-
-        contenedorAnimacion.setVisibility(View.VISIBLE);
-        contenedorListadoNotificaciones.setVisibility(View.GONE);
-
-        usuarioModel.responderInvitacionGrupo(id, resRespuestaInvitacion)
-                .subscribeOn(Schedulers.single())
-                .subscribe(status -> {
-
-                    if (status == 200){
-                        mostrarDialogoResultadoAccion(true, resRespuestaInvitacion);
-
-                    }
-                    else {
-                        mostrarDialogoResultadoAccion(false, resRespuestaInvitacion);
-                    }
-
-                }, error -> {
-                    contenedorAnimacion.setVisibility(View.VISIBLE);
-                    contenedorListadoNotificaciones.setVisibility(View.VISIBLE);
-                    error.printStackTrace();
-                });
-
-    }
-
-    private void mostrarDialogoResultadoAccion(boolean exitosa, RespuestaInvitacion respuestaInvitacion){
+    public void mostrarDialogoCrearGrupo(){
 
         // Escondemos el indicador de carga
         contenedorAnimacion.setVisibility(View.GONE);
@@ -201,23 +165,6 @@ public class NotificacionesFragment extends Fragment {
         AppCompatTextView tvResultadoAccion = dialogView.findViewById(R.id.textoResultadoAccion);
         LottieAnimationView lavResultadoAccion = dialogView.findViewById(R.id.animacionResultadoAccion);
 
-        // Mostramos el mensaje y la animacion correspondientes
-        if (exitosa){
-            lavResultadoAccion.setAnimation("animacion_operacion_exitosa.json");
-
-            if (respuestaInvitacion == RespuestaInvitacion.ACEPTAR){
-                tvResultadoAccion.setText(R.string.fragnot_adhesion_grupo_exitosa);
-            }
-            else {
-                tvResultadoAccion.setText(R.string.fragnot_rechazo_grupo_exitosa);
-            }
-        }
-        else {
-            tvResultadoAccion.setText(R.string.fragnot_adhesion_grupo_fallida);
-            lavResultadoAccion.setAnimation("animacion_operacion_fallida.json");
-        }
-
-        // Creamos el alertdialog y le pasamos la vista
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         dialogBuilder.setView(dialogView);
         dialogBuilder.setCancelable(true);
@@ -240,5 +187,17 @@ public class NotificacionesFragment extends Fragment {
                         dialog.dismiss();
                     });
                 });
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+
+            case R.id.botonCrearGrupo:
+                mostrarDialogoCrearGrupo();
+        }
+
     }
 }

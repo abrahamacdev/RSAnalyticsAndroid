@@ -70,6 +70,10 @@
     <string name="sinnot_ups">¡Vaya! Parece que aún no tienes ninguna notificación</string>
     <string name="sinnot_desliza">(Desliza hacia abajo para recargar)</string>
 
+    <!-- sin_grupo.xml -->
+    <string name="singru_ups">No perteneces a ningún grupo</string>
+    <string name="singru_crear_grupo">Crear grupo</string>
+
     <!-- detalle_notificacion_informes.xml -->
     <string name="detnotinf_titulo">Informe disponible</string>
 
@@ -80,5 +84,13 @@
     <string name="detnotinvgrup_mensaje_adhesion_p1">¡Hola! Soy </string>
     <string name="detnotinvgrup_mensaje_adhesion_p2">, responsable del grupo </string>
     <string name="detnotinvgrup_mensaje_adhesion_p3"> y nos gustaria mucho que te unieras a nosotros. ¿Que opinas?</string>
+
+    <!-- detalle_miembro_grupo.xml -->
+    <string name="detmiegru_texto_fecha_p1">Miembro desde el </string>
+    <string name="detmiegru_texto_fecha_p2">de</string>
+
+    <!-- dialogo_crear_grupo.xml -->
+    <string name="diacregru_nombre_grupo">Nombre del grupo</string>
+    <string name="diacregru_crear_grupo">Crear</string>
 
 </resources>

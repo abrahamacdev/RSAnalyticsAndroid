@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="@dimen/diacregru_ancho_contenedor"
+    android:layout_height="@dimen/diacregru_alto_contenedor"
+    android:layout_gravity="center"
+    android:paddingBottom="@dimen/diresacc_margen_superior_texto_dialogo_res_accion"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animacionCarga"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:lottie_fileName="animacion_cargando.json"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
+
+    <RelativeLayout
+        android:id="@+id/contenedorDatosGrupo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="@dimen/diacregru_ancho_input"
+            android:layout_height="wrap_content"
+            android:hint="@string/diacregru_nombre_grupo"
+            android:layout_marginTop="@dimen/diacregru_margen_superior_input"
+            android:layout_marginLeft="@dimen/diacregru_margen_izquierdo_input">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imagenResNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/emailTextInputLayout"
+            android:layout_marginTop="@dimen/diacregru_margen_superior_imagen_res_nombre"
+            android:layout_marginLeft="@dimen/diacregru_margen_izquierdo_imagen_res_nombre"
+            android:src="@drawable/ic_linea"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/botonEnviarDatosCreacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/diacregru_margenes_laterales_boton"
+            android:layout_marginLeft="@dimen/diacregru_margenes_laterales_boton"
+            android:layout_alignParentBottom="true"
+            android:textAlignment="center"
+            android:backgroundTint="@color/colorSecondary"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:textSize="@dimen/diresacc_tamanio_texto_res_accion"
+            android:text="@string/diacregru_crear_grupo"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/contenedorResCreacion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animacionResCreacion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            app:lottie_autoPlay="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textoResultadoAccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/diresacc_padding_lateral_texto_dialogo_res_accion"
+            android:paddingRight="@dimen/diresacc_padding_lateral_texto_dialogo_res_accion"
+            android:layout_alignParentBottom="true"
+            android:textAlignment="center"
+            android:textSize="@dimen/diacregru_tamanio_texto_res_accion"
+            android:text="Se ha creado el grupo exitosamente"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
