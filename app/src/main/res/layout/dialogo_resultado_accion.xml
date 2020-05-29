@@ -1,44 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/contenedorResultadoAccion"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone"
+    android:layout_gravity="center"
+    android:paddingBottom="@dimen/diresacc_margen_superior_texto_dialogo_res_accion"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/fragnot_ancho_card_dialogo_res_accion"
-        android:layout_height="@dimen/fragnot_alto_card_dialogo_res_accion"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animacionResultadoAccion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        app:lottie_autoPlay="true"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textoResultadoAccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/diresacc_padding_lateral_texto_dialogo_res_accion"
+        android:paddingRight="@dimen/diresacc_padding_lateral_texto_dialogo_res_accion"
+        android:layout_alignParentBottom="true"
+        android:textAlignment="center"
+        android:textSize="@dimen/diresacc_tamanio_texto_res_accion"
+        android:text="Se ha unido exitosamente al grupo"/>
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animacionResultadoAccion"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/textoResultadoAccion"
-                android:scaleType="center"
-                app:lottie_autoPlay="true"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textoResultadoAccion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/fragnot_margen_superior_texto_dialogo_res_accion"
-                android:paddingLeft="@dimen/fragnot_padding_lateral_texto_dialogo_res_accion"
-                android:paddingRight="@dimen/fragnot_padding_lateral_texto_dialogo_res_accion"
-                android:layout_alignParentBottom="true"
-                android:textAlignment="center"
-                android:text="Se ha unido exitosamente al grupo"/>
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

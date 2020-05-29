@@ -60,6 +60,7 @@
 
     <!-- fragment_notificaciones.xml -->
     <string name="fragnot_adhesion_grupo_exitosa">¡Enhorabuena! Ya eres un miembro del grupo</string>
+    <string name="fragnot_rechazo_grupo_exitosa">Se ha rechazado la invitacion exitósamente</string>
     <string name="fragnot_adhesion_grupo_fallida">Ups, no hemos podido añadirle al grupo</string>
 
     <!-- menu_principal.xml -->

@@ -267,7 +267,7 @@ public class UsuarioRepository {
 
             logger.log(Level.SEVERE, "Hemos " + respuestaInvitacion.name().toLowerCase() + " una invitacion");
 
-            String url = Constantes.URL_SERVER + Constantes.RUTA_USUARIO + Constantes.RUTA_INVITACION;
+            String url = Constantes.URL_SERVER + Constantes.RUTA_GRUPO + Constantes.RUTA_INVITACION;
 
             if (respuestaInvitacion == RespuestaInvitacion.ACEPTAR){
                 url += Constantes.ACEPTAR_INVITACION_ENDPOINT;

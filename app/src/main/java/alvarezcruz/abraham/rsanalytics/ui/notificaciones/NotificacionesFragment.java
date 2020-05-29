@@ -32,8 +32,10 @@ import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import alvarezcruz.abraham.rsanalytics.model.repository.local.UsuarioModel;
 import alvarezcruz.abraham.rsanalytics.ui.menuPrincipal.MenuPrincipalActivity;
 import alvarezcruz.abraham.rsanalytics.utils.RespuestaInvitacion;
+import io.reactivex.rxjava3.core.Emitter;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class NotificacionesFragment extends Fragment {
 
@@ -78,7 +80,6 @@ public class NotificacionesFragment extends Fragment {
     }
 
     private void initViews(View view){
-
         contenedorSinNotificaciones = view.findViewById(R.id.contenedorSinNotificaciones);
         contenedorAnimacion = view.findViewById(R.id.contenedorAnimacion);
         contenedorListadoNotificaciones = view.findViewById(R.id.contenedorListadoNotificaciones);
@@ -166,32 +167,35 @@ public class NotificacionesFragment extends Fragment {
     private void manejarInvitacionGrupo(int id, RespuestaInvitacion resRespuestaInvitacion){
 
         contenedorAnimacion.setVisibility(View.VISIBLE);
+        contenedorListadoNotificaciones.setVisibility(View.GONE);
 
         usuarioModel.responderInvitacionGrupo(id, resRespuestaInvitacion)
+                .subscribeOn(Schedulers.single())
                 .subscribe(status -> {
 
                     if (status == 200){
-                        mostrarDialogoResultadoAccion(true);
+                        mostrarDialogoResultadoAccion(true, resRespuestaInvitacion);
 
                     }
                     else {
-                        mostrarDialogoResultadoAccion(false);
+                        mostrarDialogoResultadoAccion(false, resRespuestaInvitacion);
                     }
 
                 }, error -> {
                     contenedorAnimacion.setVisibility(View.VISIBLE);
+                    contenedorListadoNotificaciones.setVisibility(View.VISIBLE);
                     error.printStackTrace();
                 });
 
     }
 
-    private void mostrarDialogoResultadoAccion(boolean exitosa){
+    private void mostrarDialogoResultadoAccion(boolean exitosa, RespuestaInvitacion respuestaInvitacion){
 
         // Escondemos el indicador de carga
         contenedorAnimacion.setVisibility(View.GONE);
 
         // Inflamos la vista del dialogo
-        LayoutInflater factory = LayoutInflater.from(getContext());
+        LayoutInflater factory = LayoutInflater.from(getActivity());
         final View dialogView = factory.inflate(R.layout.dialogo_resultado_accion, null);
 
         AppCompatTextView tvResultadoAccion = dialogView.findViewById(R.id.textoResultadoAccion);
@@ -199,8 +203,14 @@ public class NotificacionesFragment extends Fragment {
 
         // Mostramos el mensaje y la animacion correspondientes
         if (exitosa){
-            tvResultadoAccion.setText(R.string.fragnot_adhesion_grupo_exitosa);
             lavResultadoAccion.setAnimation("animacion_operacion_exitosa.json");
+
+            if (respuestaInvitacion == RespuestaInvitacion.ACEPTAR){
+                tvResultadoAccion.setText(R.string.fragnot_adhesion_grupo_exitosa);
+            }
+            else {
+                tvResultadoAccion.setText(R.string.fragnot_rechazo_grupo_exitosa);
+            }
         }
         else {
             tvResultadoAccion.setText(R.string.fragnot_adhesion_grupo_fallida);
@@ -208,14 +218,27 @@ public class NotificacionesFragment extends Fragment {
         }
 
         // Creamos el alertdialog y le pasamos la vista
-        final AlertDialog resultadoAccionDialog = new AlertDialog.Builder(getContext()).create();
-        resultadoAccionDialog.setView(dialogView);
-        resultadoAccionDialog.setCanceledOnTouchOutside(true);
-        resultadoAccionDialog.show();
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setCancelable(true);
+        dialogBuilder.setOnDismissListener((v) -> {
+            contenedorListadoNotificaciones.setVisibility(View.VISIBLE);
+            usuarioModel.recargarNotificaciones();
+        });
+
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+
+        // Cambiamos el tamaño de la ventana
+        dialog.getWindow().setLayout((int) getResources().getDimension(R.dimen.diresacc_ancho_card_dialogo_res_accion), (int) getResources().getDimension(R.dimen.diresacc_alto_card_dialogo_res_accion));
 
         // Esperamos 3 segundos antes de esconder el dialogo
-        Observable.create(emitter -> emitter.onComplete())
+        Observable.create(Emitter::onComplete)
                 .delay(3, TimeUnit.SECONDS)
-                .subscribe((o) -> {}, error -> {}, resultadoAccionDialog::hide);
+                .subscribe((o) -> {}, error -> {}, () -> {
+                    getActivity().runOnUiThread(() -> {
+                        dialog.dismiss();
+                    });
+                });
     }
 }

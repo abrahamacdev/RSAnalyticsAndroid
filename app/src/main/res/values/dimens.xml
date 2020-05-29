@@ -45,11 +45,12 @@
     <dimen name="navhedmain_tamanio_imagen">76dp</dimen>
     <dimen name="navhedmain_margen_superior_textos">12dp</dimen>
 
-    <!-- fragment_notificaciones.xml -->
-    <dimen name="fragnot_ancho_card_dialogo_res_accion">224dp</dimen>
-    <dimen name="fragnot_alto_card_dialogo_res_accion">156dp</dimen>
-    <dimen name="fragnot_margen_superior_texto_dialogo_res_accion">16dp</dimen>
-    <dimen name="fragnot_padding_lateral_texto_dialogo_res_accion">24dp</dimen>
+    <!-- dialogo_resultado_accion.xml -->
+    <dimen name="diresacc_ancho_card_dialogo_res_accion">272dp</dimen>
+    <dimen name="diresacc_alto_card_dialogo_res_accion">272dp</dimen>
+    <dimen name="diresacc_margen_superior_texto_dialogo_res_accion">16dp</dimen>
+    <dimen name="diresacc_padding_lateral_texto_dialogo_res_accion">24dp</dimen>
+    <dimen name="diresacc_tamanio_texto_res_accion">18sp</dimen>
 
     <!-- listado_notificaciones.xml -->
     <dimen name="lisnot_padding_vertical_recycler">8dp</dimen>
