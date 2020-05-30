@@ -166,7 +166,6 @@ public class UsuarioModel extends AndroidViewModel {
 
                     if (par.first == 200){
                         ldUsuario.setValue(par.second);
-
                     }
 
                     emitter.onSuccess(par);
@@ -273,6 +272,30 @@ public class UsuarioModel extends AndroidViewModel {
                 }, Throwable::printStackTrace);
     }
 
+    public void recargarMiembrosYUsuarioAsync(){
+        usuarioRepository.obtenerMiembros(this.ldTokenLocal.getValue())
+                .subscribeOn(Schedulers.io())
+                .subscribe(par -> {
+
+                    if (par.first == 200){
+                        this.ldMiembros.postValue(par.second);
+                    }
+
+                    // No pertenece a ningun grupo
+                    else if (par.first == 400){
+                        this.ldMiembros.postValue(new ArrayList<>(0));
+                    }
+
+                    // Recargamos la informacion del usuario
+                    usuarioRepository.obtenerInformacionGeneral(this.ldTokenLocal.getValue())
+                            .subscribe(par2 -> {
+                                if (par2.first == 200){
+                                    ldUsuario.setValue(par2.second);
+                                }
+                            });
+                });
+    }
+
     public void recargarMiembros(){
         // Obtenemos el listado y lo almacenamos en el live data
         usuarioRepository.obtenerMiembros(this.ldTokenLocal.getValue())
@@ -282,6 +305,16 @@ public class UsuarioModel extends AndroidViewModel {
                         this.ldMiembros.postValue(par.second);
                     }
                 });
+    }
+
+    public Maybe<Integer> crearGrupoAsync(String nombre){
+        return usuarioRepository.crearGrupo(this.ldTokenLocal.getValue(), nombre)
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Maybe<Integer> invitarUsuarioAsync(String correo){
+        return usuarioRepository.invitarUsuario(this.ldTokenLocal.getValue(), correo)
+                .subscribeOn(Schedulers.io());
     }
     // -------------
 }

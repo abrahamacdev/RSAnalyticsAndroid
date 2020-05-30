@@ -1,5 +1,10 @@
 package alvarezcruz.abraham.rsanalytics.utils;
 
+import android.app.Activity;
+import android.content.Context;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -85,5 +90,10 @@ public class Utils {
         }
 
         return "";
+    }
+
+    public static void esconderTeclado(Context context, View view){
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fabResponsableInvitar"
+        android:icon="@drawable/ic_invitar"
+        android:title="Favorite" />
+
+    <item
+        android:id="@+id/fabResponsableAbandonar"
+        android:icon="@drawable/ic_abandonar_grupo"
+        android:title="Message" />
+
+</menu>

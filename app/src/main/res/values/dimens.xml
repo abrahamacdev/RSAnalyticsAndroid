@@ -55,6 +55,11 @@
     <!-- listado_notificaciones.xml -->
     <dimen name="lisnot_padding_vertical_recycler">8dp</dimen>
 
+    <!-- listado_miembros_grupo.xml -->
+    <dimen name="lismiegru_tamanio_fab">56dp</dimen>
+    <dimen name="lismiegru_margin_fab_miembro">16dp</dimen>
+    <dimen name="lismiegru_margin_inferior_fab_responsable">16dp</dimen>
+
     <!-- sin_notificaciones.xml -->
     <dimen name="sinnot_margenes_laterales_guidelines_animacion">4dp</dimen>
     <dimen name="sinnot_margen_inferior_guidelines_animacion">156dp</dimen>
@@ -108,14 +113,24 @@
     <dimen name="detnotinvgrup_tamanio_texto_botones">12sp</dimen>
 
     <!-- dialogo_crear_grupo.xml -->
-    <dimen name="diacregru_ancho_contenedor">256dp</dimen>
-    <dimen name="diacregru_alto_contenedor">192dp</dimen>
+    <dimen name="diacregru_ancho_contenedor">316dp</dimen>
+    <dimen name="diacregru_alto_contenedor">236dp</dimen>
+    <dimen name="diacregru_ancho_anim_carga">221dp</dimen>
+    <dimen name="diacregru_alto_anim_carga">165dp</dimen>
     <dimen name="diacregru_margen_superior_input">42dp</dimen>
-    <dimen name="diacregru_margen_izquierdo_input">24dp</dimen>
-    <dimen name="diacregru_ancho_input">172dp</dimen>
+    <dimen name="diacregru_margen_lateral_input">24dp</dimen>
+    <dimen name="diacregru_tamanio_texto_input">20sp</dimen>
     <dimen name="diacregru_margenes_laterales_boton">32dp</dimen>
     <dimen name="diacregru_margen_superior_imagen_res_nombre">48dp</dimen>
     <dimen name="diacregru_margen_izquierdo_imagen_res_nombre">16dp</dimen>
     <dimen name="diacregru_tamanio_texto_res_accion">16sp</dimen>
+
+    <!-- dialogo_invitacion_grupo.xml -->
+    <dimen name="diaabagru_ancho_contenedor">316dp</dimen>
+    <dimen name="diaabagru_alto_contenedor">246dp</dimen>
+    <dimen name="diaabagru_ancho_input_correo">192dp</dimen>
+    <dimen name="diaabagru_tamanio_imagen_res_busqueda">24dp</dimen>
+    <dimen name="diaabagru_margen_superior_imagen">64dp</dimen>
+    <dimen name="diaabagru_margen_izquierdo_imagen">20dp</dimen>
 
 </resources>

@@ -5,8 +5,6 @@ import androidx.annotation.NonNull;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Usuario implements Serializable {
 
@@ -19,25 +17,25 @@ public class Usuario implements Serializable {
     private String primerApellido;
     private String segundoApellido;
     private String correo;
-    private boolean esMiembro;
+    private boolean responsable;
     private long fechaMiembro;
     private Sexo sexo;
 
     public Usuario(){}
 
-    public Usuario(String nombre, String primerApellido, String correo, boolean esResponsable, String sexo) {
+    public Usuario(String nombre, String primerApellido, String correo, boolean responsable, String sexo) {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.correo = correo;
-        this.esMiembro = esResponsable;
+        this.responsable = responsable;
         setSexo(sexo);
     }
 
-    public Usuario(String nombre, String primerApellido, String correo, boolean esResponsable, Sexo sexo) {
+    public Usuario(String nombre, String primerApellido, String correo, boolean responsable, Sexo sexo) {
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.correo = correo;
-        this.esMiembro = esResponsable;
+        this.responsable = responsable;
         this.sexo = sexo;
     }
 
@@ -115,5 +113,13 @@ public class Usuario implements Serializable {
 
     public void setFechaMiembro(long fechaMiembro) {
         this.fechaMiembro = fechaMiembro;
+    }
+
+    public boolean isResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(boolean responsable) {
+        this.responsable = responsable;
     }
 }

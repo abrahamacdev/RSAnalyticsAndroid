@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="@dimen/diacregru_ancho_contenedor"
-    android:layout_height="@dimen/diacregru_alto_contenedor"
+<RelativeLayout android:layout_width="@dimen/diaabagru_ancho_contenedor"
+    android:layout_height="@dimen/diaabagru_alto_contenedor"
     android:layout_gravity="center"
     android:paddingBottom="@dimen/diresacc_margen_superior_texto_dialogo_res_accion"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,31 +18,39 @@
         app:lottie_autoPlay="true"/>
 
     <RelativeLayout
-        android:id="@+id/contenedorDatosGrupo"
+        android:id="@+id/contenedorDatosCorreo"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayoutNombreGrupo"
+            android:id="@+id/inputLayoutCorreoUsuario"
             style="@style/Theme.MaterialComponents.Light"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/diaabagru_ancho_input_correo"
             android:layout_height="wrap_content"
-            android:hint="@string/diacregru_nombre_grupo"
+            android:hint="@string/diaabagru_correo_usuario"
             android:layout_marginTop="@dimen/diacregru_margen_superior_input"
-            android:layout_marginRight="@dimen/diacregru_margen_lateral_input"
             android:layout_marginLeft="@dimen/diacregru_margen_lateral_input">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputNombreGrupo"
-                android:layout_width="match_parent"
+                android:id="@+id/inputCorreoUsuario"
+                android:layout_width="@dimen/diaabagru_ancho_input_correo"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/diacregru_tamanio_texto_input"
-                android:inputType="textPersonName" />
+                android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
+        
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imagenCorreo"
+            android:layout_width="@dimen/diaabagru_tamanio_imagen_res_busqueda"
+            android:layout_height="@dimen/diaabagru_tamanio_imagen_res_busqueda"
+            android:layout_toRightOf="@id/inputLayoutCorreoUsuario"
+            android:layout_marginTop="@dimen/diaabagru_margen_superior_imagen"
+            android:layout_marginLeft="@dimen/diaabagru_margen_izquierdo_imagen"
+            android:src="@drawable/ic_linea"/>
+        
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/botonEnviarDatosCreacion"
+            android:id="@+id/botonEnviarInvitacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/diacregru_margenes_laterales_boton"
@@ -53,18 +61,18 @@
             android:textColor="@android:color/white"
             android:textAllCaps="false"
             android:textSize="@dimen/diresacc_tamanio_texto_res_accion"
-            android:text="@string/diacregru_crear_grupo"/>
+            android:text="@string/diaabagru_enviar_invitacion"/>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/contenedorResCreacion"
+        android:id="@+id/contenedorResInvitacion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animacionResCreacion"
+            android:id="@+id/animacionResInvitacion"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/textoResultadoAccion"

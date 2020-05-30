@@ -17,8 +17,10 @@ public class Constantes {
     public final static String REGISTRO_USUARIO_ENDPOINT = "/registro";
     public final static String INFORMACION_GENERAL_USUARIO_ENDPOINT = "/informacionGeneral";
     public final static String MARCAR_NOTIFICACIONES_LEIDAS_ENDPOINT = "/marcarNotificaciones";
+    public final static String INVITAR_USUARIO_ENDPOINT= "/invitar";
     public final static String ACEPTAR_INVITACION_ENDPOINT = "/aceptar";
     public final static String RECHAZAR_INVITACION_ENDPOINT = "/rechazar";
+    public final static String REGISTRO_GRUPO_ENDPOINT = "/registro";
     public final static String DATOS_GENERALES_GRUPO_ENDPOINT = "/datosGenerales";
 
     // REGEX
@@ -26,5 +28,8 @@ public class Constantes {
     public final static String REGEX_NOMBRE_PERSONA = "^[A-Za-zñÑáéíóúÁÉÍÓÚ\\s]+$";
     public final static String REGEX_CONTRASENIA = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])";
     public final static String REGEX_TELEFONO = "^[0-9]{9}$";
+    public final static String REGEX_NOMBRE_GRUPO = "[`!@#$%^&*()+\\=\\[\\]{};':\"\\\\|,<>\\/?~]";
+
+    public final static int LONGITUD_MAX_NOMBRE_GRUPO = 50;
 
 }

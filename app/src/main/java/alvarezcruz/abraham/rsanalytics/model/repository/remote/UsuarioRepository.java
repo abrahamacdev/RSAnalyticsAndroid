@@ -363,5 +363,79 @@ public class UsuarioRepository {
 
         });
     }
+
+    public Maybe<Integer> crearGrupo(String token, String nombreGrupo){
+        return Maybe.create(emitter -> {
+
+            String url = Constantes.URL_SERVER + Constantes.RUTA_GRUPO + Constantes.REGISTRO_GRUPO_ENDPOINT;
+
+            JSONObject params = new JSONObject();
+            params.put("nombreGrupo", nombreGrupo);
+
+            // Realizamos la peticion
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, params,
+                    response -> {
+
+                        emitter.onSuccess(200);
+
+                    }, error -> {
+
+                        int status = 500;
+
+                        if (error.networkResponse != null){
+                            status = error.networkResponse.statusCode;
+                        }
+
+                        emitter.onSuccess(status);
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+
+        });
+    }
+
+    public Maybe<Integer> invitarUsuario(String token, String correo){
+        return Maybe.create(emitter -> {
+
+            String url = Constantes.URL_SERVER + Constantes.RUTA_GRUPO + Constantes.INVITAR_USUARIO_ENDPOINT;
+
+            JSONObject params = new JSONObject();
+            params.put("invitado", correo);
+
+            // Realizamos la peticion
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, params,
+                    response -> {
+
+                        emitter.onSuccess(200);
+
+                    }, error -> {
+
+                        int status = 500;
+
+                        if (error.networkResponse != null){
+                            status = error.networkResponse.statusCode;
+                        }
+
+                        emitter.onSuccess(status);
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+
+        });
+    }
     // --------------
 }
