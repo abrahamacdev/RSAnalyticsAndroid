@@ -99,13 +99,19 @@
     <string name="diacregru_creacion_grupo_fallida">No se ha podido crear el grupo, inténtelo de nuevo más tarde</string>
     <string name="diacregru_existe_nombre_grupo">Ya existe un grupo con ese nombre</string>
 
-    <!-- dialogo_abandonar_grupo -->
-    <string name="diaabagru_correo_usuario">Correo del usuario</string>
-    <string name="diaabagru_introduce_correo_valido">Introduzca un correo válido</string>
-    <string name="diaabagru_enviar_invitacion">Enviar invitación</string>
-    <string name="diaabagru_correo_no_valido">Enviar invitación</string>
-    <string name="diaabagru_invitacion_exitosa">Se ha invitado al usuario exitósamente</string>
-    <string name="diaabagru_invitacion_fallida">No se ha podido invitar al usuario, inténtelo de nuevo más tarde</string>
-    <string name="diaabagru_no_existe_usuario">No existe ningún usuario con ese correo</string>
+    <!-- dialogo_invitacion_grupo.xml -->
+    <string name="diainvgru_correo_usuario">Correo del usuario</string>
+    <string name="diainvgru_introduce_correo_valido">Introduzca un correo válido</string>
+    <string name="diainvgru_enviar_invitacion">Enviar invitación</string>
+    <string name="diainvgru_invitacion_exitosa">Se ha invitado al usuario exitósamente</string>
+    <string name="diainvgru_invitacion_fallida">No se ha podido invitar al usuario, inténtelo de nuevo más tarde</string>
+    <string name="diainvgru_no_existe_usuario">No existe ningún usuario con ese correo</string>
+
+    <!-- dialogo_abandono_grupo.xml -->
+    <string name="diaabagru_aviso_miembro">¿Estás seguro de querer abandonar este grupo?</string>
+    <string name="diaabagru_aviso_pequenio">(Se eliminará el grupo por completo)</string>
+    <string name="diaabagru_abandonar">Abandonar</string>
+    <string name="diaabagru_cancelar">Cancelar</string>
+    <string name="diaabagru_error_abandono">No se ha podido realizar la acción, inténtelo de nuevo más tarde</string>
 
 </resources>

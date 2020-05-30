@@ -29,6 +29,7 @@ import alvarezcruz.abraham.rsanalytics.adapters.GrupoAdapter;
 import alvarezcruz.abraham.rsanalytics.adapters.decorators.EdgeDecorator;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.repository.local.UsuarioModel;
+import alvarezcruz.abraham.rsanalytics.ui.dialogs.DialogoAbandonarGrupo;
 import alvarezcruz.abraham.rsanalytics.ui.dialogs.DialogoInvitacionGrupo;
 import alvarezcruz.abraham.rsanalytics.ui.dialogs.DialogoCrearGrupo;
 import alvarezcruz.abraham.rsanalytics.ui.menuPrincipal.MenuPrincipalActivity;
@@ -170,14 +171,14 @@ public class GrupoFragment extends Fragment implements View.OnClickListener {
 
     public void mostrarFabAdecuado(){
 
-        this.usuarioModel.getUsuario()
+        this.usuarioModel.recargarUsuario()
                 .subscribe(par -> {
+
+                    logger.log(Level.SEVERE, "Vamos a mostrar el fab adecuado (" + par.first + " - " + par.second.isResponsable() + ")");
 
                     if (par.first == 200){
 
                         boolean esResponsable = par.second.isResponsable();
-
-                        logger.log(Level.SEVERE, String.valueOf(esResponsable));
 
                         if (esResponsable){
                             botonMiembro.setVisibility(View.GONE);
@@ -211,18 +212,40 @@ public class GrupoFragment extends Fragment implements View.OnClickListener {
 
     public void mostrarDialogoAbandonoGrupo(boolean esResponsable){
 
-
-    }
-
-    public void mostrarDialogoInvitacion(){
-
-        DialogoInvitacionGrupo dialogoInvitacionGrupo = new DialogoInvitacionGrupo(getActivity(), usuarioModel);
-        dialogoInvitacionGrupo.setCanceledOnTouchOutside(true);
-        dialogoInvitacionGrupo.setOnDismissListener((dialogInterface) -> {
+        // Custom listener para evitar la recarga innecesaria de datos
+        CustomDialogsGrupoListener customDialogsListener = new CustomDialogsGrupoListener();
+        customDialogsListener.avisarSoloPrimero();
+        customDialogsListener.setOnCancelConsumer(i -> {});
+        customDialogsListener.setOnDismissConsumer(i -> {
             contenedorListadoMiembros.setVisibility(View.GONE);
             contenedorAnimacion.setVisibility(View.VISIBLE);
             usuarioModel.recargarMiembrosYUsuarioAsync();
         });
+
+        // Creamos el dialogo y le establecemos los listeners anteriores
+        DialogoAbandonarGrupo dialogoAbandonarGrupo = new DialogoAbandonarGrupo(getActivity(), usuarioModel, esResponsable);
+        dialogoAbandonarGrupo.setCanceledOnTouchOutside(true);
+        dialogoAbandonarGrupo.setOnDismissListener(customDialogsListener);
+        dialogoAbandonarGrupo.setOnCancelListener(customDialogsListener);
+        dialogoAbandonarGrupo.show();
+    }
+
+    public void mostrarDialogoInvitacion(){
+
+        // Custom listener para evitar la recarga innecesaria de datos
+        CustomDialogsGrupoListener customDialogsListener = new CustomDialogsGrupoListener();
+        customDialogsListener.avisarSoloPrimero();
+        customDialogsListener.setOnCancelConsumer(i -> {});
+        customDialogsListener.setOnDismissConsumer(i -> {
+            contenedorListadoMiembros.setVisibility(View.GONE);
+            contenedorAnimacion.setVisibility(View.VISIBLE);
+            usuarioModel.recargarMiembrosYUsuarioAsync();
+        });
+
+        DialogoInvitacionGrupo dialogoInvitacionGrupo = new DialogoInvitacionGrupo(getActivity(), usuarioModel);
+        dialogoInvitacionGrupo.setCanceledOnTouchOutside(true);
+        dialogoInvitacionGrupo.setOnCancelListener(customDialogsListener);
+        dialogoInvitacionGrupo.setOnDismissListener(customDialogsListener);
         dialogoInvitacionGrupo.show();
     }
 

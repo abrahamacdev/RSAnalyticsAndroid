@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="@dimen/diaabagru_ancho_contenedor"
-    android:layout_height="@dimen/diaabagru_alto_contenedor"
+<RelativeLayout android:layout_width="@dimen/diainvgru_ancho_contenedor"
+    android:layout_height="@dimen/diainvgru_alto_contenedor"
     android:layout_gravity="center"
     android:paddingBottom="@dimen/diresacc_margen_superior_texto_dialogo_res_accion"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,15 +25,15 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayoutCorreoUsuario"
             style="@style/Theme.MaterialComponents.Light"
-            android:layout_width="@dimen/diaabagru_ancho_input_correo"
+            android:layout_width="@dimen/diainvgru_ancho_input_correo"
             android:layout_height="wrap_content"
-            android:hint="@string/diaabagru_correo_usuario"
+            android:hint="@string/diainvgru_correo_usuario"
             android:layout_marginTop="@dimen/diacregru_margen_superior_input"
             android:layout_marginLeft="@dimen/diacregru_margen_lateral_input">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputCorreoUsuario"
-                android:layout_width="@dimen/diaabagru_ancho_input_correo"
+                android:layout_width="@dimen/diainvgru_ancho_input_correo"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/diacregru_tamanio_texto_input"
                 android:inputType="textEmailAddress" />
@@ -42,11 +42,11 @@
         
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imagenCorreo"
-            android:layout_width="@dimen/diaabagru_tamanio_imagen_res_busqueda"
-            android:layout_height="@dimen/diaabagru_tamanio_imagen_res_busqueda"
+            android:layout_width="@dimen/diainvgru_tamanio_imagen_res_busqueda"
+            android:layout_height="@dimen/diainvgru_tamanio_imagen_res_busqueda"
             android:layout_toRightOf="@id/inputLayoutCorreoUsuario"
-            android:layout_marginTop="@dimen/diaabagru_margen_superior_imagen"
-            android:layout_marginLeft="@dimen/diaabagru_margen_izquierdo_imagen"
+            android:layout_marginTop="@dimen/diainvgru_margen_superior_imagen"
+            android:layout_marginLeft="@dimen/diainvgru_margen_izquierdo_imagen"
             android:src="@drawable/ic_linea"/>
         
         <androidx.appcompat.widget.AppCompatButton
@@ -61,7 +61,7 @@
             android:textColor="@android:color/white"
             android:textAllCaps="false"
             android:textSize="@dimen/diresacc_tamanio_texto_res_accion"
-            android:text="@string/diaabagru_enviar_invitacion"/>
+            android:text="@string/diainvgru_enviar_invitacion"/>
 
     </RelativeLayout>
 

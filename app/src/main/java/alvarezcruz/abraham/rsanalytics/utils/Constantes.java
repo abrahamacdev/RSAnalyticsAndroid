@@ -21,6 +21,7 @@ public class Constantes {
     public final static String ACEPTAR_INVITACION_ENDPOINT = "/aceptar";
     public final static String RECHAZAR_INVITACION_ENDPOINT = "/rechazar";
     public final static String REGISTRO_GRUPO_ENDPOINT = "/registro";
+    public final static String ABANDONAR_GRUPO_ENDPOINT = "/abandonar";
     public final static String DATOS_GENERALES_GRUPO_ENDPOINT = "/datosGenerales";
 
     // REGEX

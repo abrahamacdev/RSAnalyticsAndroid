@@ -20,7 +20,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +30,6 @@ import alvarezcruz.abraham.rsanalytics.utils.Constantes;
 import alvarezcruz.abraham.rsanalytics.utils.Utils;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableEmitter;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class DialogoInvitacionGrupo extends AlertDialog implements View.OnClickListener {
 
@@ -72,7 +70,7 @@ public class DialogoInvitacionGrupo extends AlertDialog implements View.OnClickL
         super.show();
 
         Context context = activity.getApplicationContext();
-        this.getWindow().setLayout((int) context.getResources().getDimension(R.dimen.diaabagru_ancho_contenedor), (int) context.getResources().getDimension(R.dimen.diaabagru_alto_contenedor));
+        this.getWindow().setLayout((int) context.getResources().getDimension(R.dimen.diainvgru_ancho_contenedor), (int) context.getResources().getDimension(R.dimen.diainvgru_alto_contenedor));
     }
 
     private void initViews(View view){
@@ -165,7 +163,7 @@ public class DialogoInvitacionGrupo extends AlertDialog implements View.OnClickL
 
             if (desdeBoton){
                 inputLayoutCorreo.setErrorEnabled(true);
-                inputCorreo.setError(getContext().getString(R.string.diaabagru_introduce_correo_valido));
+                inputCorreo.setError(getContext().getString(R.string.diainvgru_introduce_correo_valido));
             }
 
             imagenCorreo.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_linea));
@@ -178,7 +176,7 @@ public class DialogoInvitacionGrupo extends AlertDialog implements View.OnClickL
 
             if (desdeBoton){
                 inputLayoutCorreo.setErrorEnabled(true);
-                inputCorreo.setError(getContext().getString(R.string.diaabagru_introduce_correo_valido));
+                inputCorreo.setError(getContext().getString(R.string.diainvgru_introduce_correo_valido));
             }
 
             imagenCorreo.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_cruz_roja));
@@ -195,7 +193,7 @@ public class DialogoInvitacionGrupo extends AlertDialog implements View.OnClickL
 
         // Toodo salio bien
         if (res == 0){
-            tvCorreo.setText(getContext().getString(R.string.diaabagru_invitacion_exitosa));
+            tvCorreo.setText(getContext().getString(R.string.diainvgru_invitacion_exitosa));
             animacionResInvitacion.setAnimation("animacion_operacion_exitosa.json");
             contenedorResInvitacion.setVisibility(View.VISIBLE);
             esconderDialogo();
@@ -204,13 +202,13 @@ public class DialogoInvitacionGrupo extends AlertDialog implements View.OnClickL
         // No existe ningun usuario con ese nombre
         else if (res == 1){
             inputLayoutCorreo.setErrorEnabled(true);
-            inputCorreo.setError(getContext().getString(R.string.diaabagru_no_existe_usuario));
+            inputCorreo.setError(getContext().getString(R.string.diainvgru_no_existe_usuario));
             contenedorDatosCorreo.setVisibility(View.VISIBLE);
         }
 
         // Algo salio mal
         else {
-            tvCorreo.setText(getContext().getString(R.string.diaabagru_invitacion_fallida));
+            tvCorreo.setText(getContext().getString(R.string.diainvgru_invitacion_fallida));
             animacionResInvitacion.setAnimation("animacion_operacion_fallida.json");
             contenedorResInvitacion.setVisibility(View.VISIBLE);
             esconderDialogo();

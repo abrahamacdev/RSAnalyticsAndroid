@@ -159,24 +159,27 @@ public class UsuarioModel extends AndroidViewModel {
     public Maybe<Pair<Integer,Usuario>> getUsuario(){
 
         if (ldUsuario.getValue() == null){
-            return Maybe.create(emitter -> {
-
-                // Obtendremos los datos del usuario de internet
-                getUsuarioRemoto().subscribe(par -> {
-
-                    if (par.first == 200){
-                        ldUsuario.setValue(par.second);
-                    }
-
-                    emitter.onSuccess(par);
-
-                }, emitter::onError, emitter::onComplete);
-            });
+            return recargarUsuario();
         }
 
         else {
             return Maybe.just(new Pair<>(200,ldUsuario.getValue()));
         }
+    }
+
+    public Maybe<Pair<Integer, Usuario>> recargarUsuario(){
+        return Maybe.create(emitter -> {
+            // Obtendremos los datos del usuario de internet
+            getUsuarioRemoto().subscribe(par -> {
+
+                if (par.first == 200){
+                    ldUsuario.setValue(par.second);
+                }
+
+                emitter.onSuccess(par);
+
+            }, emitter::onError, emitter::onComplete);
+        });
     }
 
     private Maybe<Pair<Integer, Usuario>> getUsuarioRemoto(){
@@ -314,6 +317,11 @@ public class UsuarioModel extends AndroidViewModel {
 
     public Maybe<Integer> invitarUsuarioAsync(String correo){
         return usuarioRepository.invitarUsuario(this.ldTokenLocal.getValue(), correo)
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Maybe<Integer> abandonarGrupoAsync(){
+        return usuarioRepository.abandonarGrupo(this.ldTokenLocal.getValue())
                 .subscribeOn(Schedulers.io());
     }
     // -------------

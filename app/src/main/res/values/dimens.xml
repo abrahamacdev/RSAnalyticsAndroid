@@ -126,11 +126,23 @@
     <dimen name="diacregru_tamanio_texto_res_accion">16sp</dimen>
 
     <!-- dialogo_invitacion_grupo.xml -->
-    <dimen name="diaabagru_ancho_contenedor">316dp</dimen>
-    <dimen name="diaabagru_alto_contenedor">246dp</dimen>
-    <dimen name="diaabagru_ancho_input_correo">192dp</dimen>
-    <dimen name="diaabagru_tamanio_imagen_res_busqueda">24dp</dimen>
-    <dimen name="diaabagru_margen_superior_imagen">64dp</dimen>
-    <dimen name="diaabagru_margen_izquierdo_imagen">20dp</dimen>
+    <dimen name="diainvgru_ancho_contenedor">316dp</dimen>
+    <dimen name="diainvgru_alto_contenedor">246dp</dimen>
+    <dimen name="diainvgru_ancho_input_correo">192dp</dimen>
+    <dimen name="diainvgru_tamanio_imagen_res_busqueda">24dp</dimen>
+    <dimen name="diainvgru_margen_superior_imagen">64dp</dimen>
+    <dimen name="diainvgru_margen_izquierdo_imagen">20dp</dimen>
+
+    <!-- dialogo_abandono_grupo.xml -->
+    <dimen name="diaabagru_ancho_contenedor">356dp</dimen>
+    <dimen name="diaabagru_alto_contenedor">248dp</dimen>
+    <dimen name="diaabagru_ancho_texto_aviso">232dp</dimen>
+    <dimen name="diaabagru_margen_superior_texto_aviso">36dp</dimen>
+    <dimen name="diaabagru_margen_superior_texto_pequenio">18dp</dimen>
+    <dimen name="diaabagru_tamanio_texto_aviso">20sp</dimen>
+    <dimen name="diaabagru_tamanio_texto_aviso_pequenio">16sp</dimen>
+    <dimen name="diaabagru_alto_contenedor_botones">48dp</dimen>
+    <dimen name="diaabagru_separacion_entre_botones">8dp</dimen>
+    <dimen name="diaabagru_padding_contenedor_accion">16dp</dimen>
 
 </resources>

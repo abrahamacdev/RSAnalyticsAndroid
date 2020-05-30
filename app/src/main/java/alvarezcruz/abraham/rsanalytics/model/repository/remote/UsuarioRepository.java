@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -435,6 +436,39 @@ public class UsuarioRepository {
 
             Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
 
+        });
+    }
+
+    public Maybe<Integer> abandonarGrupo(String token){
+        return Maybe.create(emitter -> {
+
+            String url = Constantes.URL_SERVER + Constantes.RUTA_GRUPO + Constantes.ABANDONAR_GRUPO_ENDPOINT;
+
+            // Realizamos la peticion
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                    response -> {
+
+                        emitter.onSuccess(200);
+
+                    }, error -> {
+
+                        int status = 500;
+
+                        if (error.networkResponse != null){
+                            status = error.networkResponse.statusCode;
+                        }
+
+                        emitter.onSuccess(status);
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            Utils.anadirPeticionACola(requestQueue, stringRequest, 1);
         });
     }
     // --------------

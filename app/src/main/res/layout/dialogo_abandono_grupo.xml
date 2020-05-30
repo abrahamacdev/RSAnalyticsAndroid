@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="@dimen/diaabagru_ancho_contenedor"
+    android:layout_height="@dimen/diaabagru_alto_contenedor"
+    android:layout_gravity="center"
+    android:paddingBottom="@dimen/diresacc_margen_superior_texto_dialogo_res_accion"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animacionCarga"
+        android:layout_width="@dimen/diacregru_ancho_anim_carga"
+        android:layout_height="@dimen/diacregru_alto_anim_carga"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        app:lottie_fileName="animacion_cargando.json"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
+
+    <RelativeLayout
+        android:id="@+id/contenedorMensaje"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/diaabagru_padding_contenedor_accion"
+        android:paddingRight="@dimen/diaabagru_padding_contenedor_accion">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textoAviso"
+            android:layout_width="@dimen/diaabagru_ancho_texto_aviso"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/diaabagru_margen_superior_texto_aviso"
+            android:textSize="@dimen/diaabagru_tamanio_texto_aviso"
+            android:text="@string/diaabagru_aviso_miembro"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textoAvisoPequenio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textoAviso"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/diaabagru_margen_superior_texto_pequenio"
+            android:textSize="@dimen/diaabagru_tamanio_texto_aviso_pequenio"
+            android:text="@string/diaabagru_aviso_pequenio"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/diaabagru_alto_contenedor_botones"
+            android:layout_alignParentBottom="true">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/botonCancelar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/separador"
+                app:strokeColor="@color/colorSecondary"
+                android:backgroundTint="@android:color/white"
+                android:textAlignment="center"
+                android:textColor="@color/colorSecondary"
+                android:textAllCaps="false"
+                android:layout_marginRight="@dimen/diaabagru_separacion_entre_botones"
+                android:textSize="@dimen/diresacc_tamanio_texto_res_accion"
+                android:text="@string/diaabagru_cancelar"/>
+
+            <View
+                android:id="@+id/separador"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/botonAbandonar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/separador"
+                android:textAlignment="center"
+                android:layout_marginLeft="@dimen/diaabagru_separacion_entre_botones"
+                android:backgroundTint="@color/colorSecondary"
+                android:textColor="@android:color/white"
+                android:textAllCaps="false"
+                android:textSize="@dimen/diresacc_tamanio_texto_res_accion"
+                android:text="@string/diaabagru_abandonar"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/contenedorResAbandono"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animacionResAbandono"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/textoResultadoAbandono"
+            android:scaleType="fitCenter"
+            app:lottie_fileName="animacion_operacion_fallida.json"
+            app:lottie_autoPlay="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textoResultadoAbandono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/diresacc_padding_lateral_texto_dialogo_res_accion"
+            android:paddingRight="@dimen/diresacc_padding_lateral_texto_dialogo_res_accion"
+            android:layout_alignParentBottom="true"
+            android:textAlignment="center"
+            android:textSize="@dimen/diacregru_tamanio_texto_res_accion"
+            android:text="@string/diaabagru_error_abandono"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
