@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.reactivestreams.Subscriber;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
+import alvarezcruz.abraham.rsanalytics.model.pojo.Informe;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import alvarezcruz.abraham.rsanalytics.utils.Constantes;
@@ -34,6 +36,8 @@ import alvarezcruz.abraham.rsanalytics.utils.RespuestaInvitacion;
 import alvarezcruz.abraham.rsanalytics.utils.Utils;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Cancellable;
 
 public class UsuarioRepository {
 
@@ -472,4 +476,134 @@ public class UsuarioRepository {
         });
     }
     // --------------
+
+    // --- Informes ---
+    public Maybe<Pair<Integer,ArrayList<Informe>>> obtenerInformes(String token){
+        return Maybe.create(emitter -> {
+
+            String url = Constantes.URL_SERVER + Constantes.RUTA_INFORMES + Constantes.LISTAR_INFORMES_ENDPOINT;
+
+            // Realizamos la peticion
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                    response -> {
+
+                        // Obtenemos el listado de informes
+                        JSONArray jsonArrayInformes = (JSONArray) Utils.obtenerDelJSON(response, "informes");
+                        ArrayList<Informe> informes = new ArrayList<>(jsonArrayInformes.length());
+
+                        // Parseamos cada informe a un POJO
+                        for (int i=0; i<jsonArrayInformes.length(); i++){
+                            informes.add(Informe.fromJson(jsonArrayInformes.optJSONObject(i)));
+                        }
+
+                        // Pasamos el listado parseado
+                        emitter.onSuccess(new Pair<>(200, informes));
+
+                    }, error -> {
+
+                        int status = 500;
+
+                        if (error.networkResponse != null){
+                            status = error.networkResponse.statusCode;
+                        }
+
+                        emitter.onSuccess(new Pair<>(status, null));
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+        });
+    }
+
+    public Observable<Pair<Integer, ArrayList<String>>> consultarMunicipios(String token, String patron){
+        return Observable.create(emitter -> {
+            String url = Constantes.URL_SERVER + Constantes.RUTA_MUNICIPIOS + Constantes.BUSCAR_MUNICIPIO;
+
+            JSONObject params = new JSONObject();
+            params.put("palabraClave", patron);
+
+            // Realizamos la peticion
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, params,
+                    response -> {
+
+
+                        // Obtenemos el listado de informes
+                        JSONArray jsonArrayMunicipios = (JSONArray) Utils.obtenerDelJSON(response, "municipios");
+                        ArrayList<String> municipios = new ArrayList<>(jsonArrayMunicipios.length());
+
+                        // Parseamos cada informe a un POJO
+                        for (int i=0; i<jsonArrayMunicipios.length(); i++){
+                            municipios.add(jsonArrayMunicipios.optString(i,""));
+                        }
+
+                        // Pasamos el listado parseado
+                        emitter.onNext(new Pair<>(200, municipios));
+
+                    }, error -> {
+
+                        int status = 500;
+
+                        if (error.networkResponse != null){
+                            status = error.networkResponse.statusCode;
+                        }
+
+                        emitter.onNext(new Pair<>(status, null));
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+        });
+    }
+
+    public Maybe<Integer> solicitarInforme(int idTipoContrato, int idTipoInmueble, String municipio, String token){
+        return Maybe.create(emitter -> {
+            String url = Constantes.URL_SERVER + Constantes.RUTA_INFORMES + Constantes.SOLICITAR_INFORME_ENDPOINT;
+
+            JSONObject params = new JSONObject();
+            params.put("municipio", municipio);
+            params.put("idTipoContrato", idTipoContrato);
+            params.put("idTipoInmueble", idTipoInmueble);
+
+            // Realizamos la peticion
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, params,
+                    response -> {
+
+                        // Pasamos el listado parseado
+                        emitter.onSuccess(200);
+
+                    }, error -> {
+
+                    error.printStackTrace();
+
+                    int status = 500;
+
+                    if (error.networkResponse != null){
+                        status = error.networkResponse.statusCode;
+                    }
+
+                    emitter.onSuccess(status);
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
+        });
+    }
+    // ----------------
 }

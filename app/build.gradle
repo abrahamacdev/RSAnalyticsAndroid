@@ -65,4 +65,7 @@ dependencies {
 
     // FAB Menu
     implementation 'com.github.joaquimley:faboptions:1.2.0'
+
+    // Material Spinner
+    implementation 'com.jaredrummler:material-spinner:1.3.1'
 }

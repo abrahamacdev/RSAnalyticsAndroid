@@ -1,7 +1,6 @@
 package alvarezcruz.abraham.rsanalytics.model.repository.local;
 
 import android.app.Application;
-import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Pair;
@@ -10,19 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.airbnb.lottie.L;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import alvarezcruz.abraham.rsanalytics.R;
+import alvarezcruz.abraham.rsanalytics.model.pojo.Informe;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.pojo.notificaciones.Notificacion;
 import alvarezcruz.abraham.rsanalytics.model.repository.remote.UsuarioRepository;
 import alvarezcruz.abraham.rsanalytics.utils.RespuestaInvitacion;
+import alvarezcruz.abraham.rsanalytics.utils.TipoContrato;
+import alvarezcruz.abraham.rsanalytics.utils.TipoInmueble;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
@@ -40,6 +38,7 @@ public class UsuarioModel extends AndroidViewModel {
     private MutableLiveData<Usuario> ldUsuario;
     private MutableLiveData<ArrayList<Notificacion>> ldNotificaciones;
     private MutableLiveData<ArrayList<Usuario>> ldMiembros;
+    private MutableLiveData<ArrayList<Informe>> ldInformes;
 
     public UsuarioModel(@NonNull Application application) {
         super(application);
@@ -50,6 +49,7 @@ public class UsuarioModel extends AndroidViewModel {
         ldTokenLocal = new MutableLiveData<>();
         ldNotificaciones = new MutableLiveData<>();
         ldMiembros = new MutableLiveData<>();
+        ldInformes = new MutableLiveData<>();
     }
 
     // --- Token ---
@@ -325,4 +325,30 @@ public class UsuarioModel extends AndroidViewModel {
                 .subscribeOn(Schedulers.io());
     }
     // -------------
+
+    // --- Informes ---
+    public MutableLiveData<ArrayList<Informe>> getInformes() {
+        return this.ldInformes;
+    }
+
+    public void recargarInformesAsync(){
+        usuarioRepository.obtenerInformes(this.ldTokenLocal.getValue())
+                .subscribeOn(Schedulers.io())
+                .subscribe(par -> {
+
+                    this.ldInformes.postValue(par.second);
+
+                }, error -> error.printStackTrace());
+    }
+
+    public Observable<Pair<Integer, ArrayList<String>>> consultarMunicipios(String patron){
+        return usuarioRepository.consultarMunicipios(this.ldTokenLocal.getValue(), patron)
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Maybe<Integer> solicitarInforme(TipoContrato tipoContrato, TipoInmueble tipoInmueble, String municipio){
+        return usuarioRepository.solicitarInforme(tipoContrato.id, tipoInmueble.id, municipio, this.ldTokenLocal.getValue())
+                .subscribeOn(Schedulers.io());
+    }
+    // ----------------
 }

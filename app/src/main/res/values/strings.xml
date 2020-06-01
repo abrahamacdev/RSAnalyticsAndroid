@@ -74,6 +74,10 @@
     <string name="singru_ups">No perteneces a ningún grupo</string>
     <string name="singru_crear_grupo">Crear grupo</string>
 
+    <!-- sin_informes.xml -->
+    <string name="sininf_ups">¡Comienza generando tu primer informe! ¿A qué esperas?</string>
+    <string name="sininf_crear_informe">Solicitar informe</string>
+
     <!-- detalle_notificacion_informes.xml -->
     <string name="detnotinf_titulo">Informe disponible</string>
 
@@ -113,5 +117,22 @@
     <string name="diaabagru_abandonar">Abandonar</string>
     <string name="diaabagru_cancelar">Cancelar</string>
     <string name="diaabagru_error_abandono">No se ha podido realizar la acción, inténtelo de nuevo más tarde</string>
+
+    <!-- dialogo_crear_informe.xml -->
+    <string name="diacreinf_label_tipo_inmueble">Tipo de inmueble</string>
+    <string name="diacreinf_opcion_tipo_inmueble_vivienda">Vivienda</string>
+
+    <string name="diacreinf_label_tipo_contrato">Tipo de contrato</string>
+    <string name="diacreinf_opcion_tipo_contrato_compra">Compra</string>
+    <string name="diacreinf_opcion_tipo_contrato_alquiler">Alquiler</string>
+
+    <string name="diacreinf_label_municipio">Municipio</string>
+    <string name="diacreinf_hint_municipio">Introduzca el municipio</string>
+    <string name="diacreinf_solicitar">Solicitar</string>
+    <string name="diacreinf_solicitud_exitosa">Se ha realizado la solicitud exitósamente</string>
+    <string name="diacreinf_solicitud_fallida">No se podido realizar la solicitud, inténtelo de nuevo más tarde</string>
+    <string name="diacreinf_seleccione_opcion">Seleccione una opción</string>
+    <string name="diacreinf_seleccione_municipio">Seleccione una de las sugerencias</string>
+    <string name="diacreinf_sugerencias_no_disponibles">No hay sugerencias disponible en estos momentos</string>
 
 </resources>

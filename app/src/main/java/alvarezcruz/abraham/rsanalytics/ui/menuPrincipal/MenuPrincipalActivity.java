@@ -71,6 +71,7 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
         // Por defecto seleccionaremos la opcion de "Informes"
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_informes);
+        mostrarSeccionInformes();
 
         avatar = navHeader.findViewById(R.id.avatar);
         tvNombre = navHeader.findViewById(R.id.textViewNombre);
@@ -145,15 +146,13 @@ public class MenuPrincipalActivity extends AppCompatActivity implements Navigati
         intent.putExtra("classfrom", this.getClass().getName());
         startActivity(intent);
 
-        logger.log(Level.SEVERE, "Hasta luego!");
-
         finish();
     }
 
     private void mostrarSeccionInformes(){
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        InformesFragment informesFragment = new InformesFragment();
+        InformesFragment informesFragment = new InformesFragment(this, usuarioModel);
 
         fragmentManager.beginTransaction()
                 .replace(R.id.contenedorFragmentos, informesFragment, InformesFragment.TAG_NAME)

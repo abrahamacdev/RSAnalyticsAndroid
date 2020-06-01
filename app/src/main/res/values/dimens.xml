@@ -145,4 +145,24 @@
     <dimen name="diaabagru_separacion_entre_botones">8dp</dimen>
     <dimen name="diaabagru_padding_contenedor_accion">16dp</dimen>
 
+    <!-- dialogo_crear_informe.xml -->
+    <dimen name="diacreinf_ancho_contenedor">356dp</dimen>
+    <dimen name="diacreinf_alto_contenedor">456dp</dimen>
+    <dimen name="diacreinf_padding_superior_inputs">32dp</dimen>
+    <dimen name="diacreinf_margen_lateral_inputs">24dp</dimen>
+    <dimen name="diacreinf_tamanio_texto_labels">20sp</dimen>
+    <dimen name="diacreinf_tamanio_texto_error">12sp</dimen>
+    <dimen name="diacreinf_margen_superior_inputs">8dp</dimen>
+    <dimen name="diacreinf_margen_entre_inputs">18dp</dimen>
+    <dimen name="diacreinf_ancho_spinners">256dp</dimen>
+    <dimen name="diacreinf_elevacion_spinners">2dp</dimen>
+    <dimen name="diacreing_ancho_input_municipio">272dp</dimen>
+    <dimen name="diacreinf_tamanio_animacion_carga_texto">42dp</dimen>
+    <dimen name="diacreinf_margen_superior_animacion_carga_texto">4dp</dimen>
+    <dimen name="diacreinf_margen_derecho_animacion_carga_texto">8dp</dimen>
+    <dimen name="diacreinf_margen_superior_boton_enviar_solicitud">24dp</dimen>
+    <dimen name="diacreinf_ancho_animacion_res_solicitud">324dp</dimen>
+    <dimen name="diacreinf_alto_animacion_res_solicitud">272dp</dimen>
+    <dimen name="diacreinf_tamanio_texto_res_solicitud">18sp</dimen>
+
 </resources>

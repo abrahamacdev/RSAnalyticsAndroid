@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="diacreinf_opciones_tipos_inmuebles">
+        <item>@string/diacreinf_opcion_tipo_inmueble_vivienda</item>
+    </string-array>
+
+    <string-array name="diacreinf_opciones_tipos_contratos">
+        <item>@string/diacreinf_opcion_tipo_contrato_compra</item>
+        <item>@string/diacreinf_opcion_tipo_contrato_alquiler</item>
+    </string-array>
+</resources>

@@ -1,11 +1,11 @@
-package alvarezcruz.abraham.rsanalytics.ui.grupo;
+package alvarezcruz.abraham.rsanalytics.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
 
 import io.reactivex.rxjava3.functions.Consumer;
 
-public class CustomDialogsGrupoListener implements Dialog.OnCancelListener, Dialog.OnDismissListener {
+public class CustomDialogsListener implements Dialog.OnCancelListener, Dialog.OnDismissListener {
 
     private Consumer<DialogInterface> onCancel;
     private Consumer<DialogInterface> onDismiss;
@@ -15,9 +15,9 @@ public class CustomDialogsGrupoListener implements Dialog.OnCancelListener, Dial
 
     private boolean _yaAvisado = false;
 
-    public CustomDialogsGrupoListener(){}
+    public CustomDialogsListener(){}
 
-    public CustomDialogsGrupoListener(Consumer<DialogInterface> onCancel, Consumer<DialogInterface> onDismiss) {
+    public CustomDialogsListener(Consumer<DialogInterface> onCancel, Consumer<DialogInterface> onDismiss) {
         this.onCancel = onCancel;
         this.onDismiss = onDismiss;
     }

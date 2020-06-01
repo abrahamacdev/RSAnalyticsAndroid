@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="@dimen/diacreinf_ancho_contenedor"
+    android:layout_height="@dimen/diacreinf_alto_contenedor"
+    android:layout_gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animacionCarga"
+        android:layout_width="@dimen/diacregru_ancho_anim_carga"
+        android:layout_height="@dimen/diacregru_alto_anim_carga"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        app:lottie_fileName="animacion_cargando.json"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/contenedorDatosInforme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/diacreinf_padding_superior_inputs"
+            android:paddingBottom="@dimen/diacreinf_padding_superior_inputs">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/labelTipoInmueble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/diacreinf_margen_lateral_inputs"
+                android:text="@string/diacreinf_label_tipo_inmueble"
+                android:textSize="@dimen/diacreinf_tamanio_texto_labels"/>
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinnerTipoInmueble"
+                android:layout_width="@dimen/diacreinf_ancho_spinners"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/labelTipoInmueble"
+                android:layout_marginTop="@dimen/diacreinf_margen_superior_inputs"
+                android:layout_marginLeft="@dimen/diacreinf_margen_lateral_inputs"
+                android:elevation="@dimen/diacreinf_elevacion_spinners"
+                app:ms_arrow_tint="@color/colorSecondary"
+                app:ms_hide_arrow="false"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/labelTipoContrato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/diacreinf_margen_entre_inputs"
+                android:layout_marginLeft="@dimen/diacreinf_margen_lateral_inputs"
+                android:text="@string/diacreinf_label_tipo_contrato"
+                android:textSize="@dimen/diacreinf_tamanio_texto_labels"
+                android:layout_below="@+id/spinnerTipoInmueble"/>
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinnerTipoContrato"
+                android:layout_width="@dimen/diacreinf_ancho_spinners"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/labelTipoContrato"
+                android:layout_marginTop="@dimen/diacreinf_margen_superior_inputs"
+                android:layout_marginLeft="@dimen/diacreinf_margen_lateral_inputs"
+                android:elevation="@dimen/diacreinf_elevacion_spinners"
+                app:ms_arrow_tint="@color/colorSecondary"
+                app:ms_hide_arrow="false"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/labelMunicipio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/diacreinf_margen_entre_inputs"
+                android:layout_marginLeft="@dimen/diacreinf_margen_lateral_inputs"
+                android:text="@string/diacreinf_label_municipio"
+                android:textSize="@dimen/diacreinf_tamanio_texto_labels"
+                android:layout_below="@+id/spinnerTipoContrato"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutMunicipio"
+                android:layout_width="@dimen/diacreing_ancho_input_municipio"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/labelMunicipio"
+                android:layout_marginLeft="@dimen/diacreinf_margen_lateral_inputs"
+                app:hintEnabled="false">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/autoCompleteMunicipio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:completionThreshold="1"
+                    android:imeOptions="flagNoExtractUi"
+                    android:hint="@string/diacreinf_hint_municipio"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:id="@+id/vistaAyudaAnimacionCargaTexto"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_toRightOf="@id/inputLayoutMunicipio"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animacionCargaTexto"
+                android:layout_width="@dimen/diacreinf_tamanio_animacion_carga_texto"
+                android:layout_height="@dimen/diacreinf_tamanio_animacion_carga_texto"
+                android:layout_below="@+id/labelMunicipio"
+                android:layout_toLeftOf="@id/vistaAyudaAnimacionCargaTexto"
+                android:layout_marginTop="@dimen/diacreinf_margen_superior_animacion_carga_texto"
+                android:layout_marginRight="@dimen/diacreinf_margen_derecho_animacion_carga_texto"
+                app:lottie_fileName="animacion_carga_texto.json"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/botonEnviarDatosCreacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/diacregru_margenes_laterales_boton"
+                android:layout_marginLeft="@dimen/diacregru_margenes_laterales_boton"
+                android:layout_marginTop="@dimen/diacreinf_margen_superior_boton_enviar_solicitud"
+                android:layout_below="@+id/inputLayoutMunicipio"
+                android:textAlignment="center"
+                android:backgroundTint="@color/colorSecondary"
+                android:textColor="@android:color/white"
+                android:textAllCaps="false"
+                android:textSize="@dimen/diresacc_tamanio_texto_res_accion"
+                android:text="@string/diacreinf_solicitar"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/contenedorResCreacion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animacionResCreacion"
+            android:layout_width="@dimen/diacreinf_ancho_animacion_res_solicitud"
+            android:layout_height="@dimen/diacreinf_alto_animacion_res_solicitud"
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter"
+            app:lottie_autoPlay="true"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textoResultadoAccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/diresacc_padding_lateral_texto_dialogo_res_accion"
+            android:paddingRight="@dimen/diresacc_padding_lateral_texto_dialogo_res_accion"
+            android:layout_below="@id/animacionResCreacion"
+            android:textAlignment="center"
+            android:textSize="@dimen/diacreinf_tamanio_texto_res_solicitud"
+            android:text="@string/diacreinf_solicitud_fallida"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

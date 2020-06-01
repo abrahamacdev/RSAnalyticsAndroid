@@ -29,6 +29,7 @@ import alvarezcruz.abraham.rsanalytics.adapters.GrupoAdapter;
 import alvarezcruz.abraham.rsanalytics.adapters.decorators.EdgeDecorator;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Usuario;
 import alvarezcruz.abraham.rsanalytics.model.repository.local.UsuarioModel;
+import alvarezcruz.abraham.rsanalytics.ui.dialogs.CustomDialogsListener;
 import alvarezcruz.abraham.rsanalytics.ui.dialogs.DialogoAbandonarGrupo;
 import alvarezcruz.abraham.rsanalytics.ui.dialogs.DialogoInvitacionGrupo;
 import alvarezcruz.abraham.rsanalytics.ui.dialogs.DialogoCrearGrupo;
@@ -213,7 +214,7 @@ public class GrupoFragment extends Fragment implements View.OnClickListener {
     public void mostrarDialogoAbandonoGrupo(boolean esResponsable){
 
         // Custom listener para evitar la recarga innecesaria de datos
-        CustomDialogsGrupoListener customDialogsListener = new CustomDialogsGrupoListener();
+        CustomDialogsListener customDialogsListener = new CustomDialogsListener();
         customDialogsListener.avisarSoloPrimero();
         customDialogsListener.setOnCancelConsumer(i -> {});
         customDialogsListener.setOnDismissConsumer(i -> {
@@ -233,7 +234,7 @@ public class GrupoFragment extends Fragment implements View.OnClickListener {
     public void mostrarDialogoInvitacion(){
 
         // Custom listener para evitar la recarga innecesaria de datos
-        CustomDialogsGrupoListener customDialogsListener = new CustomDialogsGrupoListener();
+        CustomDialogsListener customDialogsListener = new CustomDialogsListener();
         customDialogsListener.avisarSoloPrimero();
         customDialogsListener.setOnCancelConsumer(i -> {});
         customDialogsListener.setOnDismissConsumer(i -> {
