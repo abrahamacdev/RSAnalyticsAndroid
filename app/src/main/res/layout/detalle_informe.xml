@@ -11,7 +11,8 @@
     app:cardCornerRadius="@dimen/detinf_radio_bordes_card"
     app:cardUseCompatPadding="false"
     app:cardPreventCornerOverlap="true"
-    app:cardElevation="8dp">
+    app:cardElevation="8dp"
+    android:clickable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -24,6 +24,7 @@ import alvarezcruz.abraham.rsanalytics.utils.TipoInmueble;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class UsuarioModel extends AndroidViewModel {
@@ -349,6 +350,10 @@ public class UsuarioModel extends AndroidViewModel {
     public Maybe<Integer> solicitarInforme(TipoContrato tipoContrato, TipoInmueble tipoInmueble, String municipio){
         return usuarioRepository.solicitarInforme(tipoContrato.id, tipoInmueble.id, municipio, this.ldTokenLocal.getValue())
                 .subscribeOn(Schedulers.io());
+    }
+
+    public void descargarInforme(Informe informe){
+        usuarioRepository.descargarInforme(informe, this.ldTokenLocal.getValue());
     }
     // ----------------
 }

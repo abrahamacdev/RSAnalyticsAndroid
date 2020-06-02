@@ -12,12 +12,17 @@ import java.util.Calendar;
 
 import alvarezcruz.abraham.rsanalytics.R;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Informe;
+import alvarezcruz.abraham.rsanalytics.ui.informes.InformeListener;
 import alvarezcruz.abraham.rsanalytics.utils.Utils;
 
-public class InformesViewHolder extends RecyclerView.ViewHolder {
+public class InformesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private AppCompatTextView tvTitulo, tvFecha;
     private AppCompatImageView ivEstado;
+
+    private InformeListener.OnInformeClickListener onClickListener;
+
+    private Informe informe;
 
     public InformesViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -26,9 +31,12 @@ public class InformesViewHolder extends RecyclerView.ViewHolder {
         tvFecha = itemView.findViewById(R.id.textViewFechaSolicitud);
         ivEstado = itemView.findViewById(R.id.imagenEstado);
 
+        itemView.setOnClickListener(this);
     }
 
     public void ligarInforme(Informe informe){
+
+        this.informe = informe;
 
         // Preparamos los datos de la fecha de solicitud
         Calendar calendar = Calendar.getInstance();
@@ -63,4 +71,14 @@ public class InformesViewHolder extends RecyclerView.ViewHolder {
 
     }
 
+    public void setOnClickListener(InformeListener.OnInformeClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onClickListener != null){
+            onClickListener.onClick(informe);
+        }
+    }
 }

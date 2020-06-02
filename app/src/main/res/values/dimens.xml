@@ -36,6 +36,7 @@
     <dimen name="menuprin_margenes_laterales_boton_logout">16dp</dimen>
     <dimen name="menuprin_padding_inferior_contenedor_boton_logout">16dp</dimen>
     <dimen name="menuprin_tamanio_texto_boton_logout">12sp</dimen>
+    <dimen name="menuprin_padding_lateral_items_menu">56dp</dimen>
 
     <!-- nav_header_main.xml -->
     <dimen name="navhedmain_alto_contenedor">192dp</dimen>

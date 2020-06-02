@@ -1,16 +1,14 @@
 package alvarezcruz.abraham.rsanalytics.model.repository.remote;
 
+import android.app.DownloadManager;
 import android.content.Context;
-import android.util.JsonReader;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Pair;
 
-import com.airbnb.lottie.L;
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -18,8 +16,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.reactivestreams.Subscriber;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +35,8 @@ import alvarezcruz.abraham.rsanalytics.utils.Utils;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.functions.Cancellable;
+
+import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class UsuarioRepository {
 
@@ -604,6 +603,25 @@ public class UsuarioRepository {
 
             Utils.anadirPeticionACola(requestQueue, jsonObjectRequest, 1);
         });
+    }
+
+    public void descargarInforme(Informe informe, String token){
+        String url = Constantes.URL_SERVER + Constantes.RUTA_INFORMES + Constantes.DESCARGAR_INFORME_ENDPOINT + "?id=" + informe.getId();
+
+        File destino = new File(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/" + informe.getNombreArchivo());
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
+            .addRequestHeader("Authorization", token)
+            .addRequestHeader("Content-Type", "application/pdf;charset=UTF-8")
+            .addRequestHeader("Cache-Control", "no-cache")
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setDestinationUri(Uri.fromFile(destino))
+            .setMimeType("application/pdf")
+            .setTitle(context.getResources().getString(R.string.frainf_desc_inf));
+
+        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
     }
     // ----------------
 }

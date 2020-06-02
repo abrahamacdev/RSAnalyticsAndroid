@@ -20,7 +20,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/menu_principal_drawer">
+        app:menu="@menu/menu_principal_drawer"
+        app:itemHorizontalPadding="@dimen/menuprin_padding_lateral_items_menu">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -9,13 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
 import alvarezcruz.abraham.rsanalytics.adapters.viewHolders.informes.InformesViewHolder;
-import alvarezcruz.abraham.rsanalytics.adapters.viewHolders.notificaciones.NotificacionInvGrupoViewHolder;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Informe;
+import alvarezcruz.abraham.rsanalytics.ui.informes.InformeListener;
 
 public class InformesAdapter extends RecyclerView.Adapter<InformesViewHolder> {
 
@@ -25,6 +24,8 @@ public class InformesAdapter extends RecyclerView.Adapter<InformesViewHolder> {
 
     private ArrayList<Informe> informes;
     private Context context;
+
+    private InformeListener.OnInformeClickListener onClickListener;
 
     public InformesAdapter(Context context){
         this.context = context;
@@ -41,6 +42,10 @@ public class InformesAdapter extends RecyclerView.Adapter<InformesViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void setOnClickListener(InformeListener.OnInformeClickListener onClickListener){
+        this.onClickListener = onClickListener;
+    }
+
     @NonNull
     @Override
     public InformesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,6 +55,7 @@ public class InformesAdapter extends RecyclerView.Adapter<InformesViewHolder> {
                     .inflate(R.layout.detalle_informe, parent, false);
 
         InformesViewHolder informesViewHolder = new InformesViewHolder(itemView);
+        informesViewHolder.setOnClickListener(onClickListener);
 
         return informesViewHolder;
     }

@@ -63,6 +63,11 @@
     <string name="fragnot_rechazo_grupo_exitosa">Se ha rechazado la invitacion exitósamente</string>
     <string name="fragnot_adhesion_grupo_fallida">Ups, no hemos podido añadirle al grupo</string>
 
+    <!-- fragment_informes.xml -->
+    <string name="frainf_titulo_permisos_disco">Permisos de escritura/lectura en disco</string>
+    <string name="frainf_desc_permisos_disco">Necesitamos los permisos de lectura y escritura para poder almacenar los informes que descargues</string>
+    <string name="frainf_desc_inf">Descargando informe...</string>
+
     <!-- menu_principal.xml -->
     <string name="menuprin_boton_logout">Desconectar</string>
 

@@ -27,6 +27,7 @@ public class Constantes {
     public final static String DATOS_GENERALES_GRUPO_ENDPOINT = "/datosGenerales";
     public final static String LISTAR_INFORMES_ENDPOINT = "/listar";
     public final static String SOLICITAR_INFORME_ENDPOINT = "/solicitar";
+    public final static String DESCARGAR_INFORME_ENDPOINT = "/descargar";
     public final static String BUSCAR_MUNICIPIO = "/buscarParecido";
 
     // REGEX

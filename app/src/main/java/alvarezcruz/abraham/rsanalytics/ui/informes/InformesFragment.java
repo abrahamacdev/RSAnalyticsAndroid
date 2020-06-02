@@ -1,5 +1,6 @@
 package alvarezcruz.abraham.rsanalytics.ui.informes;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +40,7 @@ import alvarezcruz.abraham.rsanalytics.ui.dialogs.CustomDialogsListener;
 import alvarezcruz.abraham.rsanalytics.ui.dialogs.DialogoCrearInforme;
 import alvarezcruz.abraham.rsanalytics.ui.menuPrincipal.MenuPrincipalActivity;
 
-public class InformesFragment extends Fragment {
+public class InformesFragment extends Fragment implements MultiplePermissionsListener {
 
     public static final String TAG_NAME = InformesFragment.class.getName();
 
@@ -57,6 +65,8 @@ public class InformesFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private boolean puedeDescargarInformes = false;
+
     public InformesFragment(){}
 
     public InformesFragment(MenuPrincipalActivity menuPrincipalActivity, UsuarioModel usuarioModel){
@@ -64,6 +74,7 @@ public class InformesFragment extends Fragment {
         this.ldInformes = usuarioModel.getInformes();
         this.menuPrincipalActivity = menuPrincipalActivity;
         this.informesAdapter = new InformesAdapter(getActivity());
+        informesAdapter.setOnClickListener(this::descargarInforme);
     }
 
 
@@ -72,6 +83,11 @@ public class InformesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_informes, container, false);
+
+        Dexter.withContext(getContext())
+                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(this)
+                .check();
 
         initViews(view);
 
@@ -178,5 +194,26 @@ public class InformesFragment extends Fragment {
         dialogoCrearInforme.show();
     }
 
+    public void descargarInforme(Informe i){
+        if (puedeDescargarInformes){
+            usuarioModel.descargarInforme(i);
+        }
+    }
 
+    @Override
+    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+        puedeDescargarInformes = multiplePermissionsReport.areAllPermissionsGranted();
+    }
+
+
+    @Override
+    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+        MultiplePermissionsListener dialogMultiplePermissionsListener =
+                DialogOnAnyDeniedMultiplePermissionsListener.Builder
+                        .withContext(getContext())
+                        .withTitle(getResources().getString(R.string.frainf_titulo_permisos_disco))
+                        .withMessage(getResources().getString(R.string.frainf_desc_permisos_disco))
+                        .withButtonText(android.R.string.ok)
+                        .build();
+    }
 }
