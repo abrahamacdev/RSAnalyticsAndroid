@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:topLeftRadius="@dimen/detinf_radio_bordes_card"
+        android:bottomLeftRadius="@dimen/detinf_radio_bordes_card"/>
+    <solid android:color="@color/colorPrimary"/>
+</shape>

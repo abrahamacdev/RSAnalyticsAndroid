@@ -112,6 +112,26 @@
     <dimen name="detnotinvgrup_altura_boton_adhesion">36dp</dimen>
     <dimen name="detnotinvgrup_tamanio_texto_botones">12sp</dimen>
 
+    <!-- detalle_informe.xml -->
+    <dimen name="detinf_alto_card">116dp</dimen>
+    <dimen name="detinf_margen_card">4dp</dimen>
+    <dimen name="detinf_radio_bordes_card">16dp</dimen>
+    <dimen name="detinf_margen_contenido_card">8dp</dimen>
+    <dimen name="detinf_padding_imagen_informe">18dp</dimen>
+    <dimen name="detinf_ancho_imagen_informe">72dp</dimen>
+    <dimen name="detinf_padding_vertical_contenedor_textos">8dp</dimen>
+    <dimen name="detinf_padding_titulo">16dp</dimen>
+    <dimen name="detinf_margen_superior_fecha">6dp</dimen>
+    <dimen name="detinf_ancho_fecha">212dp</dimen>
+    <dimen name="detinf_padding_izquierda_fecha">16dp</dimen>
+    <dimen name="detinf_padding_derecha_fecha">8dp</dimen>
+    <dimen name="detinf_margen_derecho_fecha">8dp</dimen>
+    <dimen name="detinf_tamanio_texto_titulo">18sp</dimen>
+    <dimen name="detinf_tamanio_texto_fecha">12sp</dimen>
+    <dimen name="detinf_imagen_estado">24dp</dimen>
+    <dimen name="detinf_margen_superior_imagen_estado">10dp</dimen>
+    <dimen name="detinf_margen_derecho_imagen_estado">16dp</dimen>
+
     <!-- dialogo_crear_grupo.xml -->
     <dimen name="diacregru_ancho_contenedor">316dp</dimen>
     <dimen name="diacregru_alto_contenedor">236dp</dimen>

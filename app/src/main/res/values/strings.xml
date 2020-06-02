@@ -93,6 +93,12 @@
     <string name="detmiegru_texto_fecha_p1">Miembro desde el</string>
     <string name="detmiegru_texto_fecha_p2">de</string>
 
+    <!-- detalle_informe.xml -->
+    <string name="detinf_titulo">Informe del municipio</string>
+    <string name="detinf_texto_fecha_p1">Solicitado el día</string>
+    <string name="detinf_texto_fecha_p2">de</string>
+    <string name="detinf_texto_fecha_p3">a las</string>
+
     <!-- dialogo_crear_grupo.xml -->
     <string name="diacregru_nombre_grupo">Nombre del grupo</string>
     <string name="diacregru_crear_grupo">Crear</string>

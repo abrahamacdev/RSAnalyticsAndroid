@@ -52,7 +52,7 @@
                 app:layout_constraintGuide_end="@dimen/detnotinf_ancho_guideline_fecha_informe"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewTituloNotificacionInforme"
+                android:id="@+id/textViewMunicipio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/detnotinf_tamanio_titulo_informe"
@@ -70,7 +70,7 @@
                 android:textSize="@dimen/detnotinf_tamanio_fecha_solicitud_informe"
                 app:layout_constraintEnd_toStartOf="@+id/guideline32"
                 app:layout_constraintStart_toEndOf="@+id/guideline31"
-                app:layout_constraintTop_toBottomOf="@+id/textViewTituloNotificacionInforme" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewMunicipio" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

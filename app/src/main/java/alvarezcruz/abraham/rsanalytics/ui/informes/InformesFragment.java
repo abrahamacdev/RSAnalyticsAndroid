@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,12 +24,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import alvarezcruz.abraham.rsanalytics.R;
-import alvarezcruz.abraham.rsanalytics.adapters.GrupoAdapter;
+import alvarezcruz.abraham.rsanalytics.adapters.InformesAdapter;
 import alvarezcruz.abraham.rsanalytics.adapters.decorators.EdgeDecorator;
 import alvarezcruz.abraham.rsanalytics.model.pojo.Informe;
 import alvarezcruz.abraham.rsanalytics.model.repository.local.UsuarioModel;
 import alvarezcruz.abraham.rsanalytics.ui.dialogs.CustomDialogsListener;
-import alvarezcruz.abraham.rsanalytics.ui.dialogs.DialogoAbandonarGrupo;
 import alvarezcruz.abraham.rsanalytics.ui.dialogs.DialogoCrearInforme;
 import alvarezcruz.abraham.rsanalytics.ui.menuPrincipal.MenuPrincipalActivity;
 
@@ -52,7 +50,7 @@ public class InformesFragment extends Fragment {
     private LottieAnimationView animacionSinInformes;
 
     private RecyclerView recyclerView;
-    private GrupoAdapter grupoAdapter;
+    private InformesAdapter informesAdapter;
 
     private AppCompatButton botonCrearInforme;
     private FloatingActionButton fabCrearInforme;
@@ -65,6 +63,7 @@ public class InformesFragment extends Fragment {
         this.usuarioModel = usuarioModel;
         this.ldInformes = usuarioModel.getInformes();
         this.menuPrincipalActivity = menuPrincipalActivity;
+        this.informesAdapter = new InformesAdapter(getActivity());
     }
 
 
@@ -102,7 +101,7 @@ public class InformesFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new EdgeDecorator(getResources().getDimension(R.dimen.lisnot_padding_vertical_recycler)));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(grupoAdapter);
+        recyclerView.setAdapter(informesAdapter);
 
         swipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         swipeRefreshLayout.setOnRefreshListener(this::refrescarInformes);
@@ -152,7 +151,7 @@ public class InformesFragment extends Fragment {
     public void actualizarListadoInformes(ArrayList<Informe> informes){
 
         // Actualizamos el listado de notificaciones
-        //grupoAdapter.actualizarTodosMiembros(informes);
+        informesAdapter.actualizarTodosInformes(informes);
 
         // Recargamos el listado de notificaciones y lo mostramos
         contenedorSinInformes.setVisibility(View.GONE);
@@ -163,8 +162,9 @@ public class InformesFragment extends Fragment {
 
         CustomDialogsListener customDialogsListener = new CustomDialogsListener();
         customDialogsListener.avisarSoloPrimero();
-        customDialogsListener.setOnCancelConsumer(i -> {});
+        customDialogsListener.setOnCancelConsumer(i -> { refrescarInformes(); });
         customDialogsListener.setOnDismissConsumer(i -> {
+
             contenedorListadoInformes.setVisibility(View.GONE);
             contenedorAnimacion.setVisibility(View.VISIBLE);
             usuarioModel.recargarInformesAsync();

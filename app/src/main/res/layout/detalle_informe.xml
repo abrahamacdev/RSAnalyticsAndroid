@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/detnotinf_margin_vertical_contenedor_principal"
+    android:layout_marginLeft="@dimen/detinf_margen_card"
+    android:layout_marginRight="@dimen/detinf_margen_card"
+    app:cardCornerRadius="@dimen/detinf_radio_bordes_card"
+    app:cardUseCompatPadding="false"
+    app:cardPreventCornerOverlap="true"
+    app:cardElevation="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/detinf_margen_contenido_card">
+
+        <ImageView
+            android:id="@+id/imagenInforme"
+            android:layout_width="@dimen/detinf_ancho_imagen_informe"
+            android:layout_height="0dp"
+            android:background="@drawable/fondo_detalle_informe"
+            android:padding="@dimen/detinf_padding_imagen_informe"
+            android:src="@drawable/ic_informe"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/contenedorTextos"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/contenedorTextos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/imagenInforme"
+            app:layout_constraintRight_toRightOf="parent"
+            android:paddingBottom="@dimen/detinf_padding_vertical_contenedor_textos"
+            android:paddingTop="@dimen/detinf_padding_vertical_contenedor_textos">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewMunicipio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/detinf_tamanio_texto_titulo"
+                android:text="Informe del municipio Madrid Capital"
+                android:paddingLeft="@dimen/detinf_padding_titulo"
+                android:paddingRight="@dimen/detinf_padding_titulo"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewFechaSolicitud"
+                android:layout_width="@dimen/detinf_ancho_fecha"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewMunicipio"
+                android:paddingLeft="@dimen/detinf_padding_izquierda_fecha"
+                android:paddingRight="@dimen/detinf_padding_derecha_fecha"
+                android:layout_marginTop="@dimen/detinf_margen_superior_fecha"
+                android:text="Solicitado el dia 20 de Noviembre de 2020 a las 16:50"
+                android:textSize="@dimen/detinf_tamanio_texto_fecha" />
+            
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imagenEstado"
+                android:layout_width="@dimen/detinf_imagen_estado"
+                android:layout_height="@dimen/detinf_imagen_estado"
+                android:layout_marginTop="@dimen/detinf_margen_superior_imagen_estado"
+                android:layout_toRightOf="@+id/textViewFechaSolicitud"
+                android:layout_below="@+id/textViewMunicipio"
+                android:layout_marginLeft="@dimen/detinf_margen_derecho_imagen_estado"/>
+            
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
