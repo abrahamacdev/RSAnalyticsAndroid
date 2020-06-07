@@ -42,6 +42,7 @@
             android:gravity="center"
             android:layout_marginTop="@dimen/diaabagru_margen_superior_texto_pequenio"
             android:textSize="@dimen/diaabagru_tamanio_texto_aviso_pequenio"
+            android:visibility="gone"
             android:text="@string/diaabagru_aviso_pequenio"/>
 
         <RelativeLayout

@@ -1,5 +1,6 @@
 package alvarezcruz.abraham.rsanalytics.ui.notificaciones;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -236,9 +237,10 @@ public class NotificacionesFragment extends Fragment {
         Observable.create(Emitter::onComplete)
                 .delay(3, TimeUnit.SECONDS)
                 .subscribe((o) -> {}, error -> {}, () -> {
-                    getActivity().runOnUiThread(() -> {
-                        dialog.dismiss();
-                    });
+                    Activity temp = getActivity();
+                    if (temp != null){
+                        temp.runOnUiThread(dialog::dismiss);
+                    }
                 });
     }
 }
